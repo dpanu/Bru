@@ -7,6 +7,7 @@ stat:   expr NEWLINE                # printExpr
     |   ID '=' value NEWLINE        # assignvalue
     |   NEWLINE                     # blank
     |   condition NEWLINE           # ifcondition
+	|	looping NEWLINE				# loops
     ;
 
 expr:   INT                         # int
@@ -16,23 +17,26 @@ expr:   INT                         # int
     |   expr op=('+'|'-') expr      # AddSub
     ;
     
-conditionalexpr: op=('!') expr				# not
-  |expr op=('<'|'>'|'<='|'>=') expr #comparison
-    |	expr op=('==' | '!=') expr			#equality
-    |	expr op=('&&') expr			#conditionalAND
-    |	expr op=('||') expr			#conditionalOR 
-    ;
+conditionalexpr:	expr op=('<'|'>'|'<='|'>=') expr    		#comparison
+				|	expr op=('=='|'!=') expr					#equality
+				|	expr op=('&&' | '||') expr					#conditionalANDOR
+				;
     
-value:  ID                           # id
-	 |  INT							 # int
+value:  ID                           # idval
+	 |  INT							 # intval
 	 |	STRING                       # string
 	 |	BOOL						 # bool
 	 ;
 
-condition:'if (' expr '){' stat '}'  # if
-		| 'if (' expr '){'stat'}'    
-	      'else{'stat'}'             # ifelse
+	 
+looping: 'loop (' ID '=' INT ';' conditionalexpr ';' ID '=' expr ') {' stat '}'	#loopcond
 		;
+
+	 
+condition:	'if (' expr '){' stat '}'  # if
+		 |  'if (' expr '){'stat'}'    
+	        'else{'stat'}'             # ifelse
+		 ;
 
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar

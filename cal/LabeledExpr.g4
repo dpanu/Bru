@@ -4,6 +4,7 @@ prog:   stat+ ;
 
 stat:   expr NEWLINE                # printExpr
     |   ID '=' expr NEWLINE         # assign
+    |   ID '=' value NEWLINE        # assignvalue
     |   NEWLINE                     # blank
     |   condition NEWLINE           # ifcondition
     ;
@@ -11,10 +12,12 @@ stat:   expr NEWLINE                # printExpr
 expr:   INT                         # int
     |   ID                          # id
     |   '(' expr ')'                # parens
-    |	op=('!') expr				# not
 	|	expr op=('*'|'/') expr      # MulDiv
     |   expr op=('+'|'-') expr      # AddSub
-    |	expr op=('<'|'>'|'<='|'>=') expr #comparison
+    ;
+    
+conditionalexpr: op=('!') expr				# not
+  |expr op=('<'|'>'|'<='|'>=') expr #comparison
     |	expr op=('==' | '!=') expr			#equality
     |	expr op=('&&') expr			#conditionalAND
     |	expr op=('||') expr			#conditionalOR 
@@ -22,13 +25,13 @@ expr:   INT                         # int
     
 value:  ID                           # id
 	 |  INT							 # int
-	 |	STRING
-	 |	BOOL
+	 |	STRING                       # string
+	 |	BOOL						 # bool
 	 ;
 
-condition:'if (' expr '){' stat '}'
-		| 'if (' expr '){'stat'}'
-	      'else{'stat'}'
+condition:'if (' expr '){' stat '}'  # if
+		| 'if (' expr '){'stat'}'    
+	      'else{'stat'}'             # ifelse
 		;
 
 
@@ -39,8 +42,8 @@ SUB :   '-' ;
 NOT :	'!' ;
 ID  :   [a-zA-Z][a-zA-Z0-9]* ;      // match identifiers
 INT :   [0-9]+ ;         // match integers
-STRING: [.]* ;
-BOOL :  '[ TRUE |  FALSE ]';
+STRING: '"'[.]*'"';
+BOOL : ['True'| 'False'];
 NEWLINE:'\r'? '\n' ;     // return newlines to parser (is end-statement signal)
 WS  :   [\r\n\t]+ -> skip ; // toss out whitespace
 LES:   '<' ;

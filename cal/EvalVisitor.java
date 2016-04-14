@@ -59,4 +59,6 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Integer> {
     public Integer visitParens(LabeledExprParser.ParensContext ctx) {
         return visit(ctx.expr()); // return child expr's value
     }
+    
+    /** op=('!') expr */
 }

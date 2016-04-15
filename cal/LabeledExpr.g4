@@ -29,13 +29,13 @@ value:  ID                           # idval
 	 ;
 
 	 
-looping: 'loop (' ID '=' INT ';' conditionalexpr ';' ID '=' expr ') {' stat '}'	#loopcond
+looping: 'loop' '(' ID '=' INT ';' conditionalexpr ';' ID '=' expr ')' '{' stat '}'	#loopcond
 		;
 
 	 
-condition:	'if (' expr '){' stat '}'  # if
-		 |  'if (' expr '){'stat'}'    
-	        'else{'stat'}'             # ifelse
+condition:	'if' '(' conditionalexpr ')' '{' stat '}'  # if
+		 |  'if' '(' conditionalexpr ')' '{' stat '}'    
+	        'else' '{' stat '}'             # ifelse
 		 ;
 
 

@@ -7,26 +7,30 @@ stat:   expr NEWLINE                # printExpr
     |   ID '=' value NEWLINE        # assignvalue
     |   NEWLINE                     # blank
     |   condition NEWLINE           # ifcondition
-    |	looping NEWLINE             # loops
+	|	looping NEWLINE				# loops
+	|   function NEWLINE			# funcdecl
     ;
 
 expr:   INT                         # int
     |   ID                          # id
     |   '(' expr ')'                # parens
-    |	expr op=('*'|'/') expr      # MulDiv
+	|	expr op=('*'|'/') expr      # MulDiv
     |   expr op=('+'|'-') expr      # AddSub
     ;
     
+function: 'method' ID '(' ID (' ,' ID)* ')' '{' stat+ '}'
+		;
+
 conditionalexpr:	expr op=('<'|'>'|'<='|'>=') expr    		#comparison
-			|	expr op=('=='|'!=') expr		#equality
-			|	expr op=('&&' | '||') expr		#conditionalANDOR
+				|	expr op=('=='|'!=') expr					#equality
+				|	expr op=('&&' | '||') expr					#conditionalANDOR
 				;
     
 value:  ID                           # idval
-     |  INT                          # intval
-     |	STRING                       # string
-     |	BOOL			     # bool
-     ;
+	 |  INT							 # intval
+	 |	STRING                       # string
+	 |	BOOL						 # bool
+	 ;
 
 	  	 
 	 

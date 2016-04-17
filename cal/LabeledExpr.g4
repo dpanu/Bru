@@ -2,7 +2,10 @@ grammar LabeledExpr;
 
 prog:   stat+ ;
 
-stat:   expr NEWLINE                # printExpr
+stat:   'print' expr NEWLINE        # printExpr
+	|   'return' expr NEWLINE		# returnExpr
+	|	'print' value NEWLINE       # printValue
+	|   'return' value NEWLINE      # returnValue
     |   ID '=' expr NEWLINE         # assign
     |   ID '=' value NEWLINE        # assignvalue
     |   NEWLINE                     # blank
@@ -18,12 +21,12 @@ expr:   INT                         # int
     |   expr op=('+'|'-') expr      # AddSub
     ;
     
-function: 'method' ID '(' ID (' ,' ID)* ')' '{' stat+ '}'
+function: 'method' ID '(' ID (' ,' ID)* ')' '{' stat+ '}' #funcdef
 		;
 
-conditionalexpr:	expr op=('<'|'>'|'<='|'>=') expr    		#comparison
-				|	expr op=('=='|'!=') expr					#equality
-				|	expr op=('&&' | '||') expr					#conditionalANDOR
+conditionalexpr:	expr op=('<'|'>'|'<='|'>=') expr    		# comparison
+				|	expr op=('=='|'!=') expr					# equality
+				|	expr op=('&&' | '||') expr					# conditionalANDOR
 				;
     
 value:  ID                           # idval
@@ -34,18 +37,21 @@ value:  ID                           # idval
 
 	  	 
 	 
-looping: 'while' '('conditionalexpr')' '{' stat+ '}'	#loopcond
+looping: 'while' '('conditionalexpr')' '{' stat+ '}'	# loopcond
 		;
 
 	 
 condition:	 ifStmt (elifStmt)* elseStmt?	# ifelse
 		 ;
 
-ifStmt: 'if' '(' conditionalexpr ')' '{' stat+ '}' ;
+ifStmt: 'if' '(' conditionalexpr ')' '{' stat+ '}' # if
+        ; 
 
-elifStmt : 'else if' '(' conditionalexpr ')' '{' stat+ '}';
+elifStmt : 'else if' '(' conditionalexpr ')' '{' stat+ '}' # elseif
+		 ; 
 
-elseStmt : 'else' '{' stat+ '}';
+elseStmt : 'else' '{' stat+ '}'  # else
+		 ;
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar
 DIV :   '/' ;

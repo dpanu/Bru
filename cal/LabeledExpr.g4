@@ -7,37 +7,41 @@ stat:   expr NEWLINE                # printExpr
     |   ID '=' value NEWLINE        # assignvalue
     |   NEWLINE                     # blank
     |   condition NEWLINE           # ifcondition
-	|	looping NEWLINE				# loops
+    |	looping NEWLINE             # loops
     ;
 
 expr:   INT                         # int
     |   ID                          # id
     |   '(' expr ')'                # parens
-	|	expr op=('*'|'/') expr      # MulDiv
+    |	expr op=('*'|'/') expr      # MulDiv
     |   expr op=('+'|'-') expr      # AddSub
     ;
     
 conditionalexpr:	expr op=('<'|'>'|'<='|'>=') expr    		#comparison
-				|	expr op=('=='|'!=') expr					#equality
-				|	expr op=('&&' | '||') expr					#conditionalANDOR
+			|	expr op=('=='|'!=') expr		#equality
+			|	expr op=('&&' | '||') expr		#conditionalANDOR
 				;
     
 value:  ID                           # idval
-	 |  INT							 # intval
-	 |	STRING                       # string
-	 |	BOOL						 # bool
-	 ;
+     |  INT                          # intval
+     |	STRING                       # string
+     |	BOOL			     # bool
+     ;
 
+	  	 
 	 
-looping: 'loop' '(' ID '=' INT ';' conditionalexpr ';' ID '=' expr ')' '{' stat '}'	#loopcond
+looping: 'while' '('conditionalexpr')' '{' stat+ '}'	#loopcond
 		;
 
 	 
-condition:	'if' '(' conditionalexpr ')' '{' stat '}'  # if
-		 |  'if' '(' conditionalexpr ')' '{' stat '}'    
-	        'else' '{' stat '}'             # ifelse
+condition:	 ifStmt (elifStmt)* elseStmt?	# ifelse
 		 ;
 
+ifStmt: 'if' '(' conditionalexpr ')' '{' stat+ '}' ;
+
+elifStmt : 'else if' '(' conditionalexpr ')' '{' stat+ '}';
+
+elseStmt : 'else' '{' stat+ '}';
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar
 DIV :   '/' ;
@@ -46,7 +50,7 @@ SUB :   '-' ;
 NOT :	'!' ;
 ID  :   [a-zA-Z][a-zA-Z0-9]* ;      // match identifiers
 INT :   [0-9]+ ;         // match integers
-STRING: '"'[.]*'"';
+STRING: '"'.*?'"';
 BOOL : ['True'| 'False'];
 NEWLINE:'\r'? '\n' ;     // return newlines to parser (is end-statement signal)
 WS  :   [\r\n\t]+ -> skip ; // toss out whitespace

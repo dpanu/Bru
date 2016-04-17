@@ -10,6 +10,8 @@ public class TestLEvaluator {
     public static class Evaluator extends LabeledExprBaseListener {
         Stack<Integer> stack = new Stack<Integer>();
 		Stack<Boolean> boolstack = new Stack<Boolean>();
+		Stack<String> stringstack = new Stack<String>();
+		Map<String, Integer> memory = new HashMap<String, Integer>();
 		
 		public void exitInt(LabeledExprParser.IntContext ctx) { 
 			int num = Integer.valueOf(ctx.INT().getText());
@@ -23,6 +25,7 @@ public class TestLEvaluator {
 				boolstack.push(false);
 		}
 
+		
 		public void exitAddSub(LabeledExprParser.AddSubContext ctx){
 			int right = stack.pop();
             int left = stack.pop();
@@ -91,8 +94,26 @@ public class TestLEvaluator {
 				System.out.println(left || right);
 		}
 		
+		
+		
+		public void exitAssign(LabeledExprParser.AssignContext ctx) { 
+			memory.put(ctx.ID().getText(), stack.pop());
+		}
+		
+		public void exitPrintline(LabeledExprParser.PrintlineContext ctx) { 
+			if(memory.containsKey(ctx.expr().getText()))
+				System.out.println(memory.get(ctx.expr().getText()));
+			else
+				System.out.println("Undefined Variable "+ ctx.expr().getText() +" define it before use");
+		}
+		
+		public void exitPrintString(LabeledExprParser.PrintStringContext ctx) { 
+			System.out.println(ctx.ID());
+		}
+		
     }
 
+		
     public static void main(String[] args) throws Exception {
         String inputFile = null;
         if ( args.length>0 ) inputFile = args[0];

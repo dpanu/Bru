@@ -16,3 +16,6 @@ true||true
 true||false
 false||true
 false||false
+a=36
+print(a)
+print("GrammarString")

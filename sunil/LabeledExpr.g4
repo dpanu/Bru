@@ -1,6 +1,6 @@
 grammar LabeledExpr;
 
-prog: stat* ;
+prog: (stat|function)* ;
 
 stat:   expr NEWLINE                # printExpr
     |   ID '=' expr NEWLINE          # assign
@@ -16,9 +16,15 @@ expr:   expr'++'                    #postfix
 	|	expr '||' expr   			#logicalOR
     |   INT                         # int
 	|   BOOL						#bool
+	|   STRING						#string
     |   ID                          # id
     |   '(' expr ')'                # parens
     ;
+
+	
+function: 'print''('expr')'			#printline
+| 'print''("'ID'")'			#printString
+;
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar
 DIV :   '/' ;
@@ -36,5 +42,6 @@ LOR:	'||';
 BOOL:   'true' | 'false' ;  //match bool
 INT :   [0-9]+ ;         // match integers
 ID  :   [a-zA-Z][a-zA-Z0-9]* ;      // match identifiers
+STRING: '"'.*?'"' ;
 NEWLINE:'\r'? '\n' ;     // return newlines to parser (is end-statement signal)
 WS  :   [ \t]+ -> skip ; // toss out whitespace

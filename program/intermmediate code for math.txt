@@ -1,0 +1,65 @@
+push "variable Name" "value"   -> assignment ( a = 1 )
+Add A B	  (store on stack )			(C =A +B)
+Store C   (pop stack and push to c)
+MULT A B 						(D = A*B )
+STORE D		(pop stack and push to d)
+PRINT C
+PRINT D 
+
+
+------------------------------------------------------
+
+
+conditional :
+
+PUSH A true
+PUSH B false
+IFEVAL A&&B
+TESTFALSE SKIP 
+BEGIN
+stat1
+stat2
+END
+SKIP
+ELSEEVAL A||B
+TESTFALSE SKIP
+BEGINELSEIF
+stat1
+stat2
+END
+PRINT C
+
+------------------------------------------------
+
+
+loop:
+
+PUSH fval 5
+PUSH i 1
+LOOPEVAL
+testFalse SKIP
+MULT fval i
+STORE fval
+SUB i 1
+STORE i
+goto LOOPEVAL
+PRINT fval
+
+-----------------------------------------------
+
+method getSUM a b
+FBEGIN
+PRINT "ABC"
+ADD A B
+STORE C
+PUSH C
+FEND
+
+
+PUSH D 7
+PUSH C 8
+CALLFUNC getSUM D C
+STORE F
+PRINT F
+
+ 

@@ -5,6 +5,8 @@ prog: (stat|function)* ;
 stat:   expr NEWLINE                # printExpr
     |   ID '=' expr NEWLINE          # assign
     |    NEWLINE                      # blank
+	| looping 							#loops
+	| condition							#ifcond
     ;
 
 expr:   expr'++'                    #postfix
@@ -21,10 +23,26 @@ expr:   expr'++'                    #postfix
     |   '(' expr ')'                # parens
     ;
 
+
 	
 function: 'print''('expr')'			#printline
 | 'print''("'ID'")'			#printString
+| 'method' ID '(' ID? (',' ID)* ')' '{' stat+ '}' #funcdecl
 ;
+
+looping: 'while' '('conditionalexpr')' '{' stat+ '}'	#loopcond
+		;
+
+		
+condition:	 ifStmt (elifStmt)* elseStmt?	# ifelse
+		 ;
+
+ifStmt: 'if' '(' conditionalexpr ')' '{' stat+ '}' ;
+
+elifStmt : 'else if' '(' conditionalexpr ')' '{' stat+ '}';
+
+elseStmt : 'else' '{' stat+ '}';
+
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar
 DIV :   '/' ;

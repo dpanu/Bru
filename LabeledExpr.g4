@@ -9,39 +9,42 @@ stat:   expr NEWLINE                # printExpr
 	| condition							#ifcond
     ;
 
-expr:   expr'++'                    #postfix
-	|   expr op=('*'|'/'|'%') expr  # MulDivMod
-    |   expr op=('+'|'-') expr      # AddSub
-	|   expr op=('<'|'>'|'<='|'>=') expr #relational
-	|	expr op=('=='|'!=')  expr   #equality
-	|	expr '&&' expr	        	#logicalAND
-	|	expr '||' expr   			#logicalOR
-    |   INT                         # int
-	|   BOOL						#bool
-	|   STRING						#string
-    |   ID                          # id
-    |   '(' expr ')'                # parens
+expr:   expr'++'                    	         #postfix
+	|   expr op=('*'|'/'|'%') exp		 # MulDivMod
+	|   expr op=('+'|'-') expr  		 # AddSub
+	|   expr op=('<'|'>'|'<='|'>=') exp	 #relational
+	|	expr op=('=='|'!=')  exp	 #equality
+	|	expr '&&' expr	            	 #logicalAND
+	|	expr '||' expr   	 	 #logicalOR
+    	|   INT                         	 # int
+	|   BOOL				 #bool
+	|   STRING				 #string
+        |   ID                                   # id
+        |   '(' expr ')'                         # parens
     ;
 
 
 	
-function: 'print''('expr')'			#printline
-| 'print''("'ID'")'			#printString
-| 'method' ID '(' ID? (',' ID)* ')' '{' stat+ '}' #funcdecl
+function: 'print''('expr')'     							#printline
+        | 'print''("'ID'")'									#printString
+        | 'method' ID '(' ID? (',' ID)* ')' '{' stat+ '}' 	#funcdecl
 ;
 
-looping: 'while' '('conditionalexpr')' '{' stat+ '}'	#loopcond
+looping: 'while' '('expr')' '{' stat+ '}'			#loopcond
 		;
 
 		
-condition:	 ifStmt (elifStmt)* elseStmt?	# ifelse
+condition:	 ifStmt (elifStmt)* elseStmt?
 		 ;
 
-ifStmt: 'if' '(' conditionalexpr ')' '{' stat+ '}' ;
+ifStmt: 'if' '(' expr ')' '{' stat+ '}'             #if
+        ;
 
-elifStmt : 'else if' '(' conditionalexpr ')' '{' stat+ '}';
+elifStmt : 'else if' '(' expr ')' '{' stat+ '}'     #elseif
+            ;
 
-elseStmt : 'else' '{' stat+ '}';
+elseStmt : 'else' '{' stat+ '}'                     #else
+        ;
 
 
 MUL :   '*' ; // assigns token name to '*' used above in grammar

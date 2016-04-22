@@ -1,0 +1,59 @@
+PUSH 6
+STORE i
+PUSH 2
+LOAD i
+ME
+IFtrue
+LOAD i
+STORE n
+PUSH 1
+LOAD i
+ADD
+STORE n
+PUSH 1
+LOAD n
+ADD
+STORE m
+PRINT m
+Go-Endifelse
+IFfalse
+PUSH 0
+STORE p
+EndIfelse
+
+WStart
+PUSH 1
+LOAD i
+GRT
+Whiletrue
+PUSH 1
+LOAD m
+ADD
+STORE z
+PRINT z
+PUSH 1
+LOAD i
+SUB
+STORE i
+Go WStart
+WEnd
+
+FuncCall swap
+LOAD i
+PUSH 2
+FuncCall Ends
+
+FuncDef swap
+STORE b
+STORE a
+
+.func body start
+LOAD a
+STORE z
+LOAD b
+STORE a
+LOAD z
+STORE b
+.func body ends
+
+FuncDef Ends

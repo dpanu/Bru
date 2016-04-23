@@ -10,7 +10,7 @@ stat:   expr NEWLINE                # printExpr
     ;
 
 expr:   expr'++'                    	         #postfix
-	|   expr op=('*'|'/'|'%') exp		 # MulDivMod
+	|   expr op=('*'|'/'|'%') expr		 # MulDivMod
 	|   expr op=('+'|'-') expr  		 # AddSub
 	|   expr op=('<'|'>'|'<='|'>=') expr	 #relational
 	|	expr op=('=='|'!=')  expr	 #equality

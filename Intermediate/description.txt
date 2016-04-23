@@ -1,6 +1,7 @@
 Push 6 -> means push this value onto stack
 Store i -> means pop from stack (the top value) and then store the value in the variable name and put it into the Hash Map (variables)
 
+LOAD a -> means get the value from hashmap and push it onto stack
 
 ME -> checks for the above two value for this condition (ME is more than) and if the value is true execute the next statement otherwise check 
       for the end of this condition

@@ -12,8 +12,8 @@ stat:   expr NEWLINE                # printExpr
 expr:   expr'++'                    	         #postfix
 	|   expr op=('*'|'/'|'%') exp		 # MulDivMod
 	|   expr op=('+'|'-') expr  		 # AddSub
-	|   expr op=('<'|'>'|'<='|'>=') exp	 #relational
-	|	expr op=('=='|'!=')  exp	 #equality
+	|   expr op=('<'|'>'|'<='|'>=') expr	 #relational
+	|	expr op=('=='|'!=')  expr	 #equality
 	|	expr '&&' expr	            	 #logicalAND
 	|	expr '||' expr   	 	 #logicalOR
     	|   INT                         	 # int

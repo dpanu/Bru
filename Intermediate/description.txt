@@ -1,0 +1,21 @@
+Push 6 -> means push this value onto stack
+Store i -> means pop from stack (the top value) and then store the value in the variable name and put it into the Hash Map (variavles)
+
+
+ME -> checks for the above two value for this condition (ME is more than) and if the value is true execute the next statement otherwise check 
+      for the end of this condition
+
+ADD -> pop two values from the stack and add the values and then push it onto stack
+
+PRINT m -> print the value of this variable (can add a condition of visiting the child i.e. variable first and push it on to stack and when 
+          print is encountered print it)
+          
+Wstart -> nxt statements will be the statement of while loop. the following value insides will be the conditions statement till Whiletrue.
+
+Whiletrue ->  if the above condition was evaluated to true execute below statements till you encounter Go WStart. If this is false skip the lines
+            and go to WEnd
+            
+
+
+
+      

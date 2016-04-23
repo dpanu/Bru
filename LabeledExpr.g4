@@ -2,11 +2,12 @@ grammar LabeledExpr;
 
 prog: (stat|function)* ;
 
-stat:   expr NEWLINE                # printExpr
-    |   ID '=' expr NEWLINE          # assign
-    |    NEWLINE                      # blank
-	| looping 							#loops
-	| condition							#ifcond
+stat:   expr               # printExpr
+        | ID '=' expr        # assign
+	| looping 			   #loops
+	| condition					#ifcond
+	| NEWLINE              #blank
+    ;
     ;
 
 expr:   expr'++'                    	         #postfix

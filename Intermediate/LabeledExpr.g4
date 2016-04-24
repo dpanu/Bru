@@ -45,7 +45,7 @@ condition:  ifStmt elseStmt?
 ifStmt: 'if' '(' exp=expr ')' NEWLINE* '{' ifstmt=prog '}'         #if
         ;
 
-elseStmt : 'else' NEWLINE* '{' elstmt=prog '}'                     #else
+elseStmt : 'else' NEWLINE* '{' elstmt=prog '}'  NEWLINE*           #else
         ;
 
 MUL :   '*' ;

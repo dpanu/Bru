@@ -29,7 +29,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     
     public String createlabel(){
         labelcounter++;
-        return ("label"+labelcounter.toString());
+        return ("label"+labelcounter);
     }
     
     @Override

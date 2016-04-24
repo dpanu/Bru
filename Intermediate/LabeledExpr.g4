@@ -67,3 +67,10 @@ ID  :   [a-zA-Z][a-zA-Z0-9]* ;           // match identifiers
 STRING: '"'.*?'"' ;
 NEWLINE:'\r'? '\n' ;                     // return newlines to parser (is end-statement signal)
 WS  :   [ \r\n\t]+ -> skip ;             // toss out whitespace
+SL_COMMENT
+: '//' .*? '\n' -> skip
+;
+
+ML_COMMENT
+: '/*' .*? '*/' -> skip
+;

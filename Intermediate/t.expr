@@ -1,7 +1,9 @@
 i = 6
 
+//If statement (Single Line Comment)
 if(i>=2)
 {
+//Assignment statement (Single Line Comment) inside
 	n = i
 	n = i + 1
 	m = n + 1
@@ -14,6 +16,8 @@ else
 
 while(i > 1)
 {
+	/* series of statements
+	(Multiline Comment) */
 	z = m + 1
 	print(z)
 	i = i -1

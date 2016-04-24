@@ -18,14 +18,20 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
     String outFile = parts1.concat(".bruclass");
     File file = new File(outFile);
-
+    int labelcounter = 0;
+    
     MyVisitorClass(){
         if(file.exists()){
             //System.out.println("Deleting file");
             file.delete();
         }
     }
-
+    
+    public String createlabel(){
+        labelcounter++;
+        return ("label"+labelcounter.toString());
+    }
+    
     @Override
     public String visitAddSub(LabeledExprParser.AddSubContext ctx) {
         visitChildren(ctx);
@@ -563,7 +569,8 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         try {
             fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
-            out.write("\nWStart" + "\n");
+            String label = createlabel();
+            out.write("\nWStart " + label + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

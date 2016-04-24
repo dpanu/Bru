@@ -106,7 +106,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
                     out.write("LOAD " + ctx.getChild(0).getText() + "\n");
                 }
 
-                out.write("MULT" + "\n");
+                out.write("MUL" + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

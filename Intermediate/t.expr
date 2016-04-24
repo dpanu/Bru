@@ -1,20 +1,29 @@
 i = 6
-if(i>=2){
-n = i
-n = i + 1
-m = n + 1
-print(m)
-}else{
-p=0
-}while(i > 1){
-z = m + 1
-print(z)
-i = i -1
+
+if(i>=2)
+{
+	n = i
+	n = i + 1
+	m = n + 1
+	print(m)	
 }
-swap(i,2)
-method swap(a,b){
-z = a
-a = b
-b = z
+else
+{
+	p=0
 }
 
+while(i > 1)
+{
+	z = m + 1
+	print(z)
+	i = i -1
+}
+
+method swap(a,b)
+{
+	z = a
+	a = b
+	b = z
+}
+
+swap(i,2)

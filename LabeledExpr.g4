@@ -42,7 +42,7 @@ looping: 'while' '('exps=expr')' NEWLINE* '{' whlstmt=prog '}'			#loopcond
 condition:  ifStmt elseStmt?
 	;
 
-ifStmt: 'if' '(' exp=expr ')' NEWLINE* '{' ifstmt=prog '}'         #if
+ifStmt: 'if' '(' exp=expr ')' NEWLINE* '{' ifstmt=prog '}'  NEWLINE*       #if
         ;
 
 elseStmt : 'else' NEWLINE* '{' elstmt=prog '}'                     #else

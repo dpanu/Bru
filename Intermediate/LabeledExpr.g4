@@ -7,22 +7,27 @@ stat:   expr  NEWLINE*             # printExpr
 	| looping 	           #loops
 	| condition		   #ifcond
 	| NEWLINE                  #blank
+	| 'stack' ID NEWLINE                #stackdec
 	;
 
 expr:   expr'++'                                   #postfix
 	|   expr op=('*'|'/'|'%') expr             #MulDivMod
-        |   expr op=('+'|'-') expr                 #AddSub
+    |   expr op=('+'|'-') expr                 #AddSub
 	|   expr op=('<'|'>'|'<='|'>=') expr       #relational
 	|   expr op=('=='|'!=')  expr              #equality
 	|   expr '&&' expr	        	   #logicalAND
 	|   expr '||' expr   			   #logicalOR
-        |   INT                                    #int
+    |   INT                                    #int
 	|   BOOL				   #bool
 	|   STRING				   #string
-        |   ID                                     #id
-        |   '(' expr ')'                           #parens
-        |   ID '(' args=arguments ')'              #funccall
-        ;
+    |   ID                                     #id
+    |   '(' expr ')'                           #parens
+    |   ID '(' args=arguments ')'              #funccall
+    |   ID '.' 'pushstk' '(' INT ')'    #stkpush
+    |   ID '.' 'popstk' '()'            #stkpop
+    |   ID '.' 'peekstk' '()'           #stkpeek
+    |   ID '.' 'emptystk' '()'          #stkempty
+            ;
 
 
 arguments: exprsn+=expr (',' exprsn+=expr)*

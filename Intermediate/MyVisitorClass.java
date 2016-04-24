@@ -12,6 +12,8 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
     FileWriter fstream;
 
+    String outFile;
+
 
     @Override
     public String visitAddSub(LabeledExprParser.AddSubContext ctx) {
@@ -603,8 +605,9 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     @Override
     public String visitFuncdecl(LabeledExprParser.FuncdeclContext ctx) {
 
-        System.out.println("Function Declaration starts");
+        //System.out.println("Function Declaration starts");
         //System.out.println(ctx.getChild(1).getText());
+        System.out.println(ctx.getChildCount());
         try {
             fstream = new FileWriter("out.bruclass", true);
             out = new BufferedWriter(fstream);
@@ -622,6 +625,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
             }
         }
         visit(ctx.args);
+
         try {
             fstream = new FileWriter("out.bruclass", true);
             out = new BufferedWriter(fstream);
@@ -641,6 +645,9 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
 
         visit(ctx.stmt);
+        visit(ctx.ret);
+        //visit(ctx.ret);
+
         try {
             fstream = new FileWriter("out.bruclass", true);
             out = new BufferedWriter(fstream);
@@ -665,9 +672,38 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
 
     @Override
+    public String visitReturnStmt(LabeledExprParser.ReturnStmtContext ctx) {
+
+        System.out.println("in return statement");
+
+        if(ctx.getChildCount() > 0){
+        //    System.out.println("chile are " + ctx.getChildCount());
+            try {
+                fstream = new FileWriter("out.bruclass", true);
+                out = new BufferedWriter(fstream);
+                out.write("PUSH " + ctx.getChild(1).getText() + "\n");
+                out.write(ctx.getChild(0).getText().toUpperCase() + "\n");
+                //out.write("WEnd" + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+
+    @Override
     public String visitExprsList(LabeledExprParser.ExprsListContext ctx) {
 
-        System.out.println("Sie is " + ctx.exprsn.size());
+        //System.out.println("Sie is " + ctx.exprsn.size());
         try {
             fstream = new FileWriter("out.bruclass", true);
             out = new BufferedWriter(fstream);
@@ -715,7 +751,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
     @Override
     public String visitArguments(LabeledExprParser.ArgumentsContext ctx) {
-        System.out.println("In here");
+        //System.out.println("In here");
         //visit(ctx.expr);
         System.out.println(ctx.exprsn.size());
         try {
@@ -746,6 +782,5 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         //System.out.println(ctx.exprsn.get(0).getText());
         return null;
     }
-
 
 }

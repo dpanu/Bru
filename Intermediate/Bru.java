@@ -2,10 +2,12 @@ import java.io.*;
 import java.util.*;
 
 public class Bru {
+	//current symbol table
 	public static Map<String, String> values = new HashMap<String, String>();
+	//stack for symbol table
 	public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
+	//execution stack
 	public static Stack<Integer> run = new Stack<Integer>(); //string
-	
 	
 	public static void main(String args[])throws IOException {
 		String path = args[0];
@@ -14,7 +16,6 @@ public class Bru {
 		String whilelabel = "";
 		BufferedReader br = new BufferedReader(new FileReader(path));
 		while((line = br.readLine()) != null){
-			if(line == "\n")continue;
 			String[] command = line.split(" ");
 			switch(command[0]){
 				case "PUSH": 	run.push(Integer.parseInt(command[1]));

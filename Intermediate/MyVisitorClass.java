@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -11,17 +12,28 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     BufferedWriter out = null;
 
     FileWriter fstream;
+    String filekanaam = Main.filename;
+    String[] parts = filekanaam.split("\\.");
+    String parts1 = parts[0];
 
-    String outFile;
+    String outFile = parts1.concat(".bruclass");
+    File file = new File(outFile);
 
+    MyVisitorClass(){
+        if(file.exists()){
+            //System.out.println("Deleting file");
+            file.delete();
+        }
+    }
 
     @Override
     public String visitAddSub(LabeledExprParser.AddSubContext ctx) {
         visitChildren(ctx);
+
         if (ctx.op.getType() == LabeledExprParser.ADD) {
             //System.out.println(left+right);
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if (ctx.getChild(2) instanceof LabeledExprParser.IntContext) {
                     out.write("PUSH " + ctx.getChild(2).getText() + "\n");
@@ -52,7 +64,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         } else {
             //System.out.println(left-right);
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
 
                 out = new BufferedWriter(fstream);
                 if (ctx.getChild(2) instanceof LabeledExprParser.IntContext) {
@@ -91,7 +103,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         if (ctx.op.getType() == LabeledExprParser.MUL) {
             //System.out.println(left*right);
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if (ctx.getChild(2) instanceof LabeledExprParser.IntContext) {
                     out.write("PUSH " + ctx.getChild(2).getText() + "\n");
@@ -106,7 +118,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
                     out.write("LOAD " + ctx.getChild(0).getText() + "\n");
                 }
 
-                out.write("MUL" + "\n");
+                out.write("MULT" + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -122,7 +134,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         } else if (ctx.op.getType() == LabeledExprParser.DIV) {
             //System.out.println(left / right);
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if (ctx.getChild(2) instanceof LabeledExprParser.IntContext) {
                     out.write("PUSH " + ctx.getChild(2).getText() + "\n");
@@ -153,7 +165,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         } else {
 
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if (ctx.getChild(2) instanceof LabeledExprParser.IntContext) {
                     out.write("PUSH " + ctx.getChild(2).getText() + "\n");
@@ -197,7 +209,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
         if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 out.write("PUSH "+ctx.getChild(2).getText() + "\n");
             } catch (IOException e) {
@@ -214,7 +226,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
         if(ctx.getChild(2) instanceof LabeledExprParser.IdContext){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 out.write("LOAD "+ctx.getChild(2).getText() + "\n");
             } catch (IOException e) {
@@ -232,7 +244,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         try {
             //visitAddSub((LabeledExprParser.AddSubContext) ctx.expr());
             //visit(ctx.expr());
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("STORE "+ctx.ID().getText() + "\n");
         } catch (IOException e) {
@@ -254,7 +266,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         //visitChildren(ctx);
         if ( ctx.op.getType() == LabeledExprParser.LESS ){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
                     out.write("PUSH "+ ctx.getChild(2).getText() + "\n");
@@ -284,7 +296,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
         else if ( ctx.op.getType() == LabeledExprParser.GRT ){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
                     out.write("PUSH "+ ctx.getChild(2).getText() + "\n");
@@ -314,7 +326,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
         else if ( ctx.op.getType() == LabeledExprParser.LE ){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
                     out.write("PUSH "+ ctx.getChild(2).getText() + "\n");
@@ -344,7 +356,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
         else if ( ctx.op.getType() == LabeledExprParser.ME ){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
                     out.write("PUSH "+ ctx.getChild(2).getText() + "\n");
@@ -380,7 +392,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         //visitChildren(ctx);
         if ( ctx.op.getType() == LabeledExprParser.EQ ){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
                     out.write("PUSH "+ ctx.getChild(2).getText() + "\n");
@@ -410,7 +422,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
         else if ( ctx.op.getType() == LabeledExprParser.NEQ ){
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 if(ctx.getChild(2) instanceof LabeledExprParser.IntContext){
                     out.write("PUSH "+ ctx.getChild(2).getText() + "\n");
@@ -446,7 +458,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     public String visitPrintline(LabeledExprParser.PrintlineContext ctx) {
         visitChildren(ctx);
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             //out.write("");
             out.write("PRINT " + ctx.expr().getText() + "\n");
@@ -472,7 +484,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         visit(ctx.exp);
         //System.out.println("if true");
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("IFtrue" + "\n");
         } catch (IOException e) {
@@ -490,7 +502,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         visit(ctx.ifstmt);
 
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("Go-Endifelse" + "\n");
         } catch (IOException e) {
@@ -511,7 +523,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     public String visitElse(LabeledExprParser.ElseContext ctx) {
 
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("IFfalse" + "\n");
         } catch (IOException e) {
@@ -528,7 +540,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         visit(ctx.elstmt);
 
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("EndIfelse" + "\n");
         } catch (IOException e) {
@@ -549,7 +561,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     @Override
     public String visitLoopcond(LabeledExprParser.LoopcondContext ctx) {
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("\nWStart" + "\n");
         } catch (IOException e) {
@@ -567,7 +579,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         visit(ctx.exps);
 
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("Whiletrue" + "\n");
         } catch (IOException e) {
@@ -583,7 +595,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         }
         visit(ctx.whlstmt);
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("Go WStart" + "\n");
             out.write("WEnd" + "\n\n");
@@ -609,7 +621,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         //System.out.println(ctx.getChild(1).getText());
         System.out.println(ctx.getChildCount());
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("\nFuncDef " + ctx.getChild(1).getText() + "\n");
             //out.write("WEnd" + "\n");
@@ -627,7 +639,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         visit(ctx.args);
 
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("\n.func body start" + "\n");
 
@@ -649,7 +661,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         //visit(ctx.ret);
 
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write(".func body ends" + "\n\n");
             out.write("FuncDef Ends" + "\n");
@@ -679,7 +691,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         if(ctx.getChildCount() > 0){
         //    System.out.println("chile are " + ctx.getChildCount());
             try {
-                fstream = new FileWriter("out.bruclass", true);
+                fstream = new FileWriter(file, true);
                 out = new BufferedWriter(fstream);
                 out.write("PUSH " + ctx.getChild(1).getText() + "\n");
                 out.write(ctx.getChild(0).getText().toUpperCase() + "\n");
@@ -705,7 +717,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
         //System.out.println("Sie is " + ctx.exprsn.size());
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             for(int i = ctx.exprsn.size()-1; i >=0 ;i--){
                 out.write("STORE " + ctx.exprsn.get(i).getText() + "\n");
@@ -729,7 +741,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     @Override
     public String visitFunccall(LabeledExprParser.FunccallContext ctx) {
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             out.write("FuncCall " + ctx.ID() + "\n");
             //out.write("WEnd" + "\n");
@@ -755,7 +767,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         //visit(ctx.expr);
         System.out.println(ctx.exprsn.size());
         try {
-            fstream = new FileWriter("out.bruclass", true);
+            fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
             for(int i=0;i<ctx.exprsn.size();i++){
                 if(ctx.exprsn.get(i) instanceof LabeledExprParser.IdContext){
@@ -783,4 +795,115 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    @Override
+    public String visitStackdec(LabeledExprParser.StackdecContext ctx) {
+
+        try {
+            fstream = new FileWriter(file, true);
+            out = new BufferedWriter(fstream);
+            out.write("STKDEC " + ctx.getChild(1).getText() + "\n");
+            //out.write("WEnd" + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String visitStkpush(LabeledExprParser.StkpushContext ctx) {
+        //System.out.println("child count from stk psh " + ctx.getChildCount());
+        try {
+            fstream = new FileWriter(file, true);
+            out = new BufferedWriter(fstream);
+            out.write("PUSH " + ctx.getChild(4).getText() + "\n");
+            out.write("STORESTK " + ctx.getChild(0).getText() + "\n");
+            //out.write("WEnd" + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    @Override
+    public String visitStkpeek(LabeledExprParser.StkpeekContext ctx) {
+        try {
+            fstream = new FileWriter(file, true);
+            out = new BufferedWriter(fstream);
+            out.write("STKPEEK " + ctx.getChild(0).getText() + "\n");
+            //out.write("WEnd" + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String visitStkempty(LabeledExprParser.StkemptyContext ctx) {
+
+        try {
+            fstream = new FileWriter(file, true);
+            out = new BufferedWriter(fstream);
+            out.write("STKEMPTY " + ctx.getChild(0).getText() + "\n");
+            //out.write("WEnd" + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return  null;
+    }
+
+    @Override
+    public String visitStkpop(LabeledExprParser.StkpopContext ctx) {
+
+        try {
+            fstream = new FileWriter(file, true);
+            out = new BufferedWriter(fstream);
+            out.write("STKPOP " + ctx.getChild(0).getText() + "\n");
+            //out.write("WEnd" + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }

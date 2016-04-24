@@ -449,7 +449,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 				FileWriter fstream = new FileWriter(file, true);
                 BufferedWriter out = new BufferedWriter(fstream);
 				) {
-            out.write("Go WStart" + "\n");
+            out.write("Go-WStart" + "\n");
             out.write("WEnd" + "\n\n");
         } catch (IOException e) {
             e.printStackTrace();

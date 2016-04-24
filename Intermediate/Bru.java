@@ -100,7 +100,7 @@ public class Bru {
 				case "RETURN" : values = symtab.pop();
 						break;
 				case "" : 	break;				
-				default: 	System.out.println("command not found" + command[0]); System.exit(0);
+				default: 	System.out.println("command not found " + command[0]); System.exit(0);
 			}	
 		}
 		br.close();		

@@ -7,7 +7,7 @@ stat:   expr  NEWLINE*             # printExpr
 	| looping 	           #loops
 	| condition		   #ifcond
 	| NEWLINE                  #blank
-        ;
+	;
 
 expr:   expr'++'                                   #postfix
 	|   expr op=('*'|'/'|'%') expr             #MulDivMod
@@ -30,7 +30,11 @@ arguments: exprsn+=expr (',' exprsn+=expr)*
 	
 function: 'print''('expr')'     	 					#printline
         | 'print''("'ID'")'		      				        #printString
-        | 'method' ID '(' args=exprsList ')' NEWLINE* '{' stmt=prog '}' 	#funcdecl
+        | 'method' ID '(' args=exprsList ')' NEWLINE* '{' stmt=prog ret=returnStmt '}' 	#funcdecl
+        ;
+
+
+returnStmt: ('return' ID)?
         ;
 
 exprsList: exprsn+=expr (',' exprsn+=expr)*

@@ -18,9 +18,10 @@ public class Main {
     public static  String filename;
     public static void main(String[] args) throws Exception{
 
-        //if ( args.length>0 ) filename = args[0];
-
-        filename = "math.bru";
+        if ( args.length>0 ) 
+			filename = args[0];
+		else
+			filename = "t.expr";
 
 
         ANTLRInputStream input = new ANTLRFileStream(filename);
@@ -29,38 +30,8 @@ public class Main {
         LabeledExprParser parser = new LabeledExprParser(tokens);
 
         ParseTree tree = parser.prog();
-        //new MyVisitorClass().check();
         MyVisitorClass vclass = new MyVisitorClass();
         vclass.visit(tree);
 
-
-
-/*
-        String inputFile = "t.expr";
-        //if ( args.length>0 ) inputFile = args[0];
-        //InputStream is = System.in;
-        InputStream is = new FileInputStream(inputFile);
-
-        ANTLRInputStream input = new ANTLRInputStream(is);
-        LabeledExprLexer lexer = new LabeledExprLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-      System.out.println(tokens.getTokens());
-        LabeledExprParser parser = new LabeledExprParser(tokens);
-
-        parser.setBuildParseTree(true);      // tell ANTLR to build a parse tree
-        ParseTree tree = parser.prog(); // parse
-        // show tree in text form
-        System.out.println(tree.toStringTree(parser));
-
-        ParseTreeWalker walker = new ParseTreeWalker();
-        //MyListener eval = new MyListener();
-        MyListenerClass eval = new MyListenerClass();
-        walker.walk(eval, tree);
-
-        //while(!eval.stack.empty())
-          //  System.out.println("Stack result = "+eval.stack.pop());
-
-
-*/
     }
 }

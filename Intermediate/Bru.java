@@ -81,22 +81,19 @@ public class Bru {
 						if(abool && bbool) condition = true;
 						else condition = false;
 						break;
-				case "IFtrue" : if(!condition){
+				case "IFtrue" : if(!condition)
 							while((line = br.readLine()).equals("Go-Endifelse") == false);  //Semi-Colon used to skip and avoid labeling
-						}	
-						break;
-				case "IFfalse" : if(condition){
-							while((line = br.readLine()).equals("EndIfelse") == false);  //Semi-Colon used to skip labeling and avoid labeling
-						}
-						break;
+							break;
+				case "IFfalse" : if(condition)
+							while((line = br.readLine()).equals("EndIfelse") == false);  //Semi-Colon used to skip and avoid labeling
+							break;
 				case "Go-Endifelse": break;
 				case "EndIfelse" :break;
 				case "WStart" : whilelabel = command[1];
 						break;
-				case "Whiletrue" : if(!condition){
-							while((line = br.readLine()).equals("WEnd") == false);
-						}
-						break;
+				case "Whiletrue" : if(!condition)
+							while((line = br.readLine()).equals("WEnd") == false); //Semi-Colon used to skip and avoid labeling
+							break;
 				case "Go-WStart": br.close();
 						br = new BufferedReader(new FileReader(path));
 						while((line = br.readLine()).equals("WStart "+whilelabel) == false);

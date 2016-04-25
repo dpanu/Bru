@@ -120,8 +120,7 @@ public class Bru {
 									default: 	System.out.println("Not able to identify the argument passed to function " + command[0]);
 								  } // End of inner switch series inside the while loop
 								} //End of while
-								System.out.println(run.pop());
-								System.out.println(run.pop());
+								//System.out.println(run.peek());
 								//break;
 				case "FuncDef":
 								br = new BufferedReader(new FileReader(path));

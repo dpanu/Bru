@@ -9,6 +9,10 @@ public class Bru {
 	//execution stack
 	public static Stack<Integer> run = new Stack<Integer>(); //string
 	
+	public static Map<String, Stack<Map<String, String>>> funcMasterTable= new HashMap<String, Stack<Map<String, String>>>();
+	public static String funcName;
+	
+	
 	public static void main(String args[])throws IOException {
 		String path = args[0];
 		String line = null;
@@ -78,11 +82,11 @@ public class Bru {
 						else condition = false;
 						break;
 				case "IFtrue" : if(!condition){
-							label1: while((line = br.readLine()).equals("Go-Endifelse") == false){continue label1;}
+							while((line = br.readLine()).equals("Go-Endifelse") == false);  //Semi-Colon used to skip and avoid labeling
 						}	
 						break;
 				case "IFfalse" : if(condition){
-							label2: while((line = br.readLine()).equals("EndIfelse") == false){continue label2;}
+							while((line = br.readLine()).equals("EndIfelse") == false);  //Semi-Colon used to skip labeling and avoid labeling
 						}
 						break;
 				case "Go-Endifelse": break;
@@ -90,17 +94,49 @@ public class Bru {
 				case "WStart" : whilelabel = command[1];
 						break;
 				case "Whiletrue" : if(!condition){
-							label3: while((line = br.readLine()).equals("WEnd") == false){continue label3;}
+							while((line = br.readLine()).equals("WEnd") == false);
 						}
 						break;
 				case "Go-WStart": br.close();
 						br = new BufferedReader(new FileReader(path));
-						label4: while((line = br.readLine()).equals("WStart "+whilelabel) == false){continue label4;}
+						while((line = br.readLine()).equals("WStart "+whilelabel) == false);
 						break;
+				case "FuncCall":
+								System.out.println("Calling functinon "+command[1]);
+								funcName = command[1];
+								System.out.println(funcName);
+								while((line = br.readLine()).equals("FuncCall Ends") == false){
+								System.out.println(line);
+								command = line.split(" ");
+								switch(command[0]){
+									case "PUSH": 	run.push(Integer.parseInt(command[1]));
+										break;
+									case "LOAD": 	
+										if(values.containsKey(command[1])){
+											String value = values.get(command[1]);
+											run.push(Integer.parseInt(value));
+										}
+										else{
+											System.out.println("Undeclared variable "+command[1]+", initialize it with some value before passing it to function");
+										}
+										break;
+									default: 	System.out.println("Not able to identify the argument passed to function " + command[0]);
+								  } // End of inner switch series inside the while loop
+								} //End of while
+								System.out.println(run.pop());
+								System.out.println(run.pop());
+								//break;
+				case "FuncDef":
+								br = new BufferedReader(new FileReader(path));
+								while((line = br.readLine()).equals("FuncDef "+funcName) == false); //Semi-Colon used to skip labeling, shortcut method
+								System.out.println("Found "+line);
+								break;
+				case ".func":
+								break;
 				case "RETURN" : values = symtab.pop();
 						break;
 				case "" : 	break;				
-				default: 	System.out.println("command not found " + command[0]); System.exit(0);
+				default: 	System.out.println("command not found " + command[0]); //System.exit(0);
 			}	
 		}
 		br.close();		

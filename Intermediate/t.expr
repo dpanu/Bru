@@ -23,11 +23,13 @@ while(i > 1)
 	i = i -1
 }
 
+swap(i,2)
+
 method swap(a,b)
 {
 	z = a
 	a = b
 	b = z
+	return a
 }
 
-swap(i,2)

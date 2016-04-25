@@ -22,7 +22,15 @@ public class Bru {
 		while((line = br.readLine()) != null){
 			String[] command = line.split(" ");
 			switch(command[0]){
-				case "PUSH": 	run.push(Integer.parseInt(command[1]));
+				case "PUSH": 	
+							try{
+								run.push(Integer.parseInt(command[1]));
+							}
+							catch(NumberFormatException e){
+								String val = values.get(command[1]);
+								run.push(Integer.parseInt(val));
+							}
+								
 					     	break;
 				case "LOAD": 	run.push(Integer.parseInt(values.get(command[1])));
 					     	break;
@@ -81,24 +89,28 @@ public class Bru {
 						if(abool && bbool) condition = true;
 						else condition = false;
 						break;
-				case "IFtrue" : if(!condition)
+				case "IFtrue" : if(!condition){
 							while((line = br.readLine()).equals("Go-Endifelse") == false);  //Semi-Colon used to skip and avoid labeling
-							break;
-				case "IFfalse" : if(condition)
-							while((line = br.readLine()).equals("EndIfelse") == false);  //Semi-Colon used to skip and avoid labeling
-							break;
+						}	
+						break;
+				case "IFfalse" : if(condition){
+							while((line = br.readLine()).equals("EndIfelse") == false);  //Semi-Colon used to skip labeling and avoid labeling
+						}
+						break;
 				case "Go-Endifelse": break;
 				case "EndIfelse" :break;
 				case "WStart" : whilelabel = command[1];
 						break;
-				case "Whiletrue" : if(!condition)
-							while((line = br.readLine()).equals("WEnd") == false); //Semi-Colon used to skip and avoid labeling
-							break;
+				case "Whiletrue" : if(!condition){
+							while((line = br.readLine()).equals("WEnd") == false);
+						}
+						break;
 				case "Go-WStart": br.close();
 						br = new BufferedReader(new FileReader(path));
 						while((line = br.readLine()).equals("WStart "+whilelabel) == false);
 						break;
 				case "FuncCall":
+				
 								System.out.println("Calling functinon "+command[1]);
 								funcName = command[1];
 								System.out.println(funcName);
@@ -117,21 +129,46 @@ public class Bru {
 											System.out.println("Undeclared variable "+command[1]+", initialize it with some value before passing it to function");
 										}
 										break;
-									default: 	System.out.println("Not able to identify the argument passed to function " + command[0]);
+									default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
 								  } // End of inner switch series inside the while loop
 								} //End of while
 								//System.out.println(run.peek());
+								//System.out.println(run.peek());
+				
 								//break;
 				case "FuncDef":
-								br = new BufferedReader(new FileReader(path));
+							//if(!command[1].equals("ends")){
+								br = new BufferedReader(new FileReader(path));	
 								while((line = br.readLine()).equals("FuncDef "+funcName) == false); //Semi-Colon used to skip labeling, shortcut method
 								System.out.println("Found "+line);
+							/*}
+							else{
 								break;
+							}*/
+								//break;
 				case ".func":
+							//if(!command[2].equals("ends")){
+								while((line = br.readLine()).equals(".func body start") == false){
+									command = line.split(" ");
+									switch(command[0]){
+									case "STORE": 	values.put(command[1], (run.pop()).toString());
+										break;
+									default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
+								  } // End of inner switch series inside the while loop
+								}	
+								System.out.println("In .func");
+								String value = values.get("a");
+								System.out.println("a ="+Integer.parseInt(value));
+								value = values.get("b");
+								System.out.println("b ="+Integer.parseInt(value));
+						//		}
 								break;
-				case "RETURN" : values = symtab.pop();
-						break;
-				case "" : 	break;				
+				case "RETURN" : 
+							System.out.println("a ="+values.get("a"));
+							System.out.println("b ="+values.get("b"));
+							//values = symtab.pop();
+							break;
+				case "" : 	break;
 				default: 	System.out.println("command not found " + command[0]); //System.exit(0);
 			}	
 		}

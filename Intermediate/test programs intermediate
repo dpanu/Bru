@@ -109,4 +109,21 @@ WEnd
 
 PRINT sum
 
+STKDEC s
+PUSH 5
+STORESTK s
+PUSH 6
+STORESTK s
+PUSH 9
+STORESTK s
+STKPEEK s
+STORE val
+PRINT "top value of stack is"
+PRINT val
+STKPOP s
+STKPEEK s
+STORE val
+PRINT "Now top value of stack is"
+PRINT val
+
 .MainMethodEnds

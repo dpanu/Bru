@@ -1,0 +1,112 @@
+FuncDef checkLarger
+STORE b
+STORE a
+
+.funcBodyStarts checkLarger
+LOAD b
+LOAD a
+ME
+
+IFtrue
+LOAD a
+STORE z
+Go-Endifelse
+IFfalse
+LOAD b
+STORE z
+EndIfelse
+LOAD z
+RETURN
+.funcbodyends
+funcends
+
+FuncDef getSum
+STORE r
+STORE q
+STORE p
+
+.funcBodyStarts getSum
+LOAD q
+LOAD p
+ADD
+LOAD r
+ADD
+STORE m
+LOAD m
+RETURN
+.funcbodyends
+funcends
+
+
+.MainMethodStarts
+PUSH 5
+STORE a
+PUSH 10
+STORE b
+PUSH 7
+STORE c
+LOAD c
+LOAD b
+MUL
+LOAD a
+ADD
+STORE d
+PRINT "Value of d is "
+PRINT d
+
+FuncCall checkLarger
+LOAD a
+LOAD b
+FuncCall Ends
+
+STORE e
+PRINT "value of e is "
+PRINT e
+PUSH true
+STORE f
+PUSH false
+STORE g
+PUSH g
+PUSH f
+AND
+
+IFtrue
+PRINT "Both are true"
+Go-Endifelse
+IFfalse
+PRINT "Either one of them is false"
+EndIfelse
+
+FuncCall getSum
+LOAD c
+LOAD d
+LOAD e
+FuncCall Ends
+
+STORE h
+PRINT "value of sum is"
+PRINT h
+PUSH 10
+STORE n
+PUSH 0
+STORE sum
+
+WStart label1
+PUSH 0
+LOAD n
+GRT
+Whiletrue
+LOAD n
+LOAD sum
+ADD
+STORE sum
+PUSH 1
+LOAD n
+SUB
+STORE n
+Go WStart
+WEnd
+
+PRINT sum
+
+.MainMethodEnds

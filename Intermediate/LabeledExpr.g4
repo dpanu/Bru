@@ -15,9 +15,8 @@ expr:   expr'++'                                   #postfix
     |   expr op=('+'|'-') expr                 #AddSub
 	|   expr op=('<'|'>'|'<='|'>=') expr       #relational
 	|   expr op=('=='|'!=')  expr              #equality
-	|   expr '&&' expr	        	   #logicalAND
-	|   expr '||' expr   			   #logicalOR
-    |   INT                                    #int
+	|   expr op=('&&' | '||') expr	        	   #logicalANDOR
+	|   INT                                    #int
 	|   BOOL				   #bool
 	|   STRING				   #string
     |   ID                                     #id

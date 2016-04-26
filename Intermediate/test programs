@@ -1,9 +1,8 @@
 // programs written must be saved with '.bru' extension
 
-
 method checkLarger(a,b){
     if(a >= b){
-        z = a
+       z = a
     }else{
         z = b
     }
@@ -57,5 +56,20 @@ method main(void){
         n = n - 1
     }
     print(sum)
+
+    stack s
+    s.pushstk(5)
+    s.pushstk(6)
+    s.pushstk(9)
+
+    val = s.peekstk()
+    print("top value of stack is")
+    print(val)
+
+    s.popstk()
+
+    val = s.peekstk()
+    print("Now top value of stack is")
+    print(val)
 
 }

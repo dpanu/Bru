@@ -1,0 +1,61 @@
+// programs written must be saved with '.bru' extension
+
+
+method checkLarger(a,b){
+    if(a >= b){
+        z = a
+    }else{
+        z = b
+    }
+    return z
+
+}
+
+method getSum(p,q,r){
+    m = p + q + r
+    return m
+
+}
+
+
+method main(void){
+
+    a = 5
+    b = 10
+    c = 7
+    d = a + b*c
+
+    //evaluation of expression
+    print("Value of d is ")
+    print(d)
+
+
+    //check for greater values in function
+    e = checkLarger(a, b)
+    print("value of e is ")
+    print(e)
+
+    // check boolean condition
+    f = true
+    g = false
+    if( f && g){
+        print("Both are true")
+    }else{
+        print("Either one of them is false")
+    }
+
+    //check for the sum in function
+    h = getSum(c,d,e)
+    print("value of sum is")
+    print(h)
+
+    //example of while
+    n = 10
+    sum = 0
+    while(n>0){
+        sum = sum + n
+        n = n - 1
+    }
+    print(sum)
+
+}

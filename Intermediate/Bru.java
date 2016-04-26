@@ -5,11 +5,11 @@ public class Bru {
 	//current symbol table
 	public static Map<String, String> values = new HashMap<String, String>();
 	//stack for symbol table
-	public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
+	//public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
 	//execution stack
-	public static Stack<Integer> run = new Stack<Integer>(); //string
+	public static Stack<String> run = new Stack<String>(); //string
 	
-	public static Map<String, Stack<Map<String, String>>> funcMasterTable= new HashMap<String, Stack<Map<String, String>>>();
+	public static Map<String, Stack<Map<String, String>>> funcMasterTable = new HashMap<String, Stack<Map<String, String>>>();
 	public static String funcName;
 	
 	
@@ -19,72 +19,80 @@ public class Bru {
 		Boolean condition = null;
 		String whilelabel = "";
 		BufferedReader br = new BufferedReader(new FileReader(path));
-		while((line = br.readLine()) != null){
+		while((line = br.readLine()).equals(".MainMethodStarts") == false);
+		while((line = br.readLine()) != ".MainMethodEnds"){
 			String[] command = line.split(" ");
 			switch(command[0]){
 				case "PUSH": 	
 							try{
-								run.push(Integer.parseInt(command[1]));
+								run.push((command[1]));
 							}
 							catch(NumberFormatException e){
 								String val = values.get(command[1]);
-								run.push(Integer.parseInt(val));
+								run.push(val);
 							}
 								
 					     	break;
-				case "LOAD": 	run.push(Integer.parseInt(values.get(command[1])));
+				case "LOAD": 	run.push((values.get(command[1])));
 					     	break;
-				case "STORE": //CHECK FOROVERRITE
-					      	values.put(command[1], (run.pop()).toString());
+				case "STORE"://check for type mismatch if variable already exists
+							if ((values.containsKey(command[1])) && (values.get(command[1]).getClass() != run.peek().getClass())){
+								 System.out.println("Type Mismatch error"); 
+								 System.exit(0); //runtime error
+							}
+							else values.put(command[1], (run.pop()));
 				 	      	break;
-				case "ADD": 	run.push(run.pop() + run.pop());
+				case "ADD": 	run.push(Integer.toString(Integer.parseInt(run.pop()) + Integer.parseInt(run.pop())));
 					    	break;
-				case "MUL": 	run.push(run.pop() * run.pop());
+				case "MUL": 	run.push(Integer.toString(Integer.parseInt(run.pop()) * Integer.parseInt(run.pop())));
 					    	break;
-				case "SUB": 	run.push(run.pop() - run.pop());
+				case "SUB": 	run.push(Integer.toString(Integer.parseInt(run.pop()) - Integer.parseInt(run.pop())));
 				     	    	break;
-				case "DIV": 	run.push(run.pop() / run.pop());
+				case "DIV": 	run.push(Integer.toString(Integer.parseInt(run.pop()) / Integer.parseInt(run.pop())));
 					    	break;
-				case "PRINT": 	System.out.println(values.get(command[1]));
+				case "PRINT": if(command[1].charAt(0) == '\"')
+								System.out.println(line.split(" ", 1));
+							else 
+								System.out.println(values.get(command[1]));
 				  	      	break;
-				case "ME" : 	int a = run.pop();
-					    	int b = run.pop();
+				case "ME" : int a = Integer.parseInt(run.pop());
+					    	int b = Integer.parseInt(run.pop());
 					    	if(a >= b) condition = true;
 					    	else condition = false;
 					    	break;
-				case "LE" : 	a = run.pop();
-					    	b = run.pop();
+				case "LE" : a = Integer.parseInt(run.pop());
+		    				b = Integer.parseInt(run.pop());
 					    	if(a <= b) condition = true;
 					    	else condition = false;
 						break;
-				case "EQ" : 	a = run.pop();
-						b = run.pop();
+				case "EQ" : a = Integer.parseInt(run.pop());
+							b = Integer.parseInt(run.pop());
 						if(a == b) condition = true;
 						else condition = false;
 						break;
-				case "NEQ" : 	a = run.pop();
-						b = run.pop();
+				case "NEQ" : 	a = Integer.parseInt(run.pop());
+							b = Integer.parseInt(run.pop());
 						if(a != b) condition = true;
 						else condition = false;
 						break;
-				case "LESS" : 	a = run.pop();
-						b = run.pop();
+				case "LESS" : 	a = Integer.parseInt(run.pop());
+							b = Integer.parseInt(run.pop());
 						if(a < b) condition = true;
 						else condition = false;
 						break;	
-				case "GRT" : 	a = run.pop();
-						b = run.pop();
+				case "GRT" : 	a = Integer.parseInt(run.pop());
+							b = Integer.parseInt(run.pop());
 						if(a > b) condition = true;
 						else condition = false;
 						break;
-				case "LAND" : 	Boolean abool = converttobool(run.pop());
-						Boolean bbool = converttobool(run.pop());
+				case "LAND" : 	Boolean abool = Boolean.valueOf(run.pop());
+						Boolean bbool = Boolean.valueOf(run.pop());
 						if (abool == null || bbool == null)System.exit(0); //error to be done
 						if(abool && bbool) condition = true;
 						else condition = false;
 						break;
-				case "LOR" : abool = converttobool(run.pop());
-						bbool = converttobool(run.pop());
+				case "LOR" : abool = Boolean.valueOf(run.pop());
+						bbool = Boolean.valueOf(run.pop());
 						if (abool == null || bbool == null)System.exit(0); //error to be done
 						if(abool && bbool) condition = true;
 						else condition = false;
@@ -118,12 +126,12 @@ public class Bru {
 								System.out.println(line);
 								command = line.split(" ");
 								switch(command[0]){
-									case "PUSH": 	run.push(Integer.parseInt(command[1]));
+									case "PUSH": 	run.push((command[1]));
 										break;
 									case "LOAD": 	
 										if(values.containsKey(command[1])){
 											String value = values.get(command[1]);
-											run.push(Integer.parseInt(value));
+											run.push((value));
 										}
 										else{
 											System.out.println("Undeclared variable "+command[1]+", initialize it with some value before passing it to function");
@@ -166,7 +174,6 @@ public class Bru {
 				case "RETURN" : 
 							System.out.println("a ="+values.get("a"));
 							System.out.println("b ="+values.get("b"));
-							//values = symtab.pop();
 							break;
 				case "" : 	break;
 				default: 	System.out.println("command not found " + command[0]); //System.exit(0);
@@ -174,9 +181,5 @@ public class Bru {
 		}
 		br.close();		
 }
-	public static Boolean converttobool(int i){
-		if(i == 1)return true;
-		else if(i == 0) return false;
-		else return null;
-	}
 }
+

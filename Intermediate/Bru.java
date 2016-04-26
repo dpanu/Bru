@@ -5,11 +5,9 @@ public class Bru {
 	//current symbol table
 	public static Map<String, String> values = new HashMap<String, String>();
 	//stack for symbol table
-	//public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
+	public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
 	//execution stack
 	public static Stack<String> run = new Stack<String>(); //string
-	
-	public static Map<String, Stack<Map<String, String>>> funcMasterTable = new HashMap<String, Stack<Map<String, String>>>();
 	public static String funcName;
 	
 	
@@ -118,7 +116,7 @@ public class Bru {
 						while((line = br.readLine()).equals("WStart "+whilelabel) == false);
 						break;
 				case "FuncCall":
-				
+								symtab.push(values);
 								System.out.println("Calling functinon "+command[1]);
 								funcName = command[1];
 								System.out.println(funcName);
@@ -140,41 +138,35 @@ public class Bru {
 									default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
 								  } // End of inner switch series inside the while loop
 								} //End of while
-								//System.out.println(run.peek());
-								//System.out.println(run.peek());
-				
 								//break;
+								
 				case "FuncDef":
 							//if(!command[1].equals("ends")){
 								br = new BufferedReader(new FileReader(path));	
 								while((line = br.readLine()).equals("FuncDef "+funcName) == false); //Semi-Colon used to skip labeling, shortcut method
 								System.out.println("Found "+line);
-							/*}
-							else{
-								break;
-							}*/
-								//break;
-				case ".func":
-							//if(!command[2].equals("ends")){
-								while((line = br.readLine()).equals(".func body start") == false){
+							while((line = br.readLine()).equals(".funcBodyStarts "+funcName) == false){
 									command = line.split(" ");
 									switch(command[0]){
-									case "STORE": 	values.put(command[1], (run.pop()).toString());
-										break;
+									case "STORE"://check for type mismatch if variable already exists
+											if ((values.containsKey(command[1])) && (values.get(command[1]).getClass() != run.peek().getClass())){
+												System.out.println("Type Mismatch error"); 
+												System.exit(0); //runtime error
+											}
+											else {
+												System.out.println(values.get(command[1])); 
+												values.put(command[1], (run.pop()));
+											}
+											break;
 									default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
 								  } // End of inner switch series inside the while loop
-								}	
-								System.out.println("In .func");
-								String value = values.get("a");
-								System.out.println("a ="+Integer.parseInt(value));
-								value = values.get("b");
-								System.out.println("b ="+Integer.parseInt(value));
-						//		}
+								}
 								break;
 				case "RETURN" : 
-							System.out.println("a ="+values.get("a"));
-							System.out.println("b ="+values.get("b"));
+							Map<String, String> mp = symtab.pop();
+							System.out.println(mp.get(run.pop()));
 							break;
+							
 				case "" : 	break;
 				default: 	System.out.println("command not found " + command[0]); //System.exit(0);
 			}	

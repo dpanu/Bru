@@ -27,16 +27,9 @@ public class Bru {
 			while((line = br.readLine()) != null){
 				String[] command = line.split(" ");
 				switch(command[0]){
-					case "PUSH": 	
-								try{
+					case "PUSH": 
 									run.push((command[1]));
-								}
-								catch(NumberFormatException e){
-									String val = values.get(command[1]);
-									run.push(val);
-								}
-									
-						     	break;
+									break;
 					case "LOAD": 	
 								if(values.containsKey(command[1])){
 									run.push(values.get(command[1]));
@@ -144,14 +137,17 @@ public class Bru {
 								else
 									condition = false;
 								break;
-					case "IFtrue" : 
-								if(!condition){
-									while((line = br.readLine()).equals("Go-Endifelse") == false);  
+					case "IFtrue" : run.push(Boolean.toString(condition));
+									//if(!values.containsKey(command[1]))
+					 					//values.put(command[1], Boolean.toString(condition));
+					 				//if(!Boolean.parseBoolean(values.get(command[1]))){
+									if(!Boolean.parseBoolean(run.peek())){
+					 					while((line = br.readLine()).equals("Go-Endifelse "+command[1]) == false);  
 								}	
 								break;
 					case "IFfalse" : 
-								if(condition){
-									while((line = br.readLine()).equals("EndIfelse") == false); 
+								if(Boolean.parseBoolean(run.pop())){
+									while((line = br.readLine()).equals("EndIfelse "+command[1]) == false); 
 								}
 								break;
 					case "Go-Endifelse":
@@ -159,11 +155,10 @@ public class Bru {
 					case "EndIfelse" :
 										break;
 					case "WStart" : 
-								whilelabel = command[1];
-								break;
-					case "Whiletrue" : 
-									if(!condition){
-										while((line = br.readLine()).equals("WEnd") == false);
+									break;
+					case "Whiletrue":
+									 if(!condition){
+										 while((line = br.readLine()).equals("WEnd "+command[1]) == false);
 									}
 									break;
 					case "WEnd" :	
@@ -171,7 +166,7 @@ public class Bru {
 					case "Go-WStart": 
 									br.close();
 									br = new BufferedReader(new FileReader(path));
-									while((line = br.readLine()).equals("WStart "+whilelabel) == false);
+									while((line = br.readLine()).equals("WStart "+command[1]) == false);
 									break;
 					case "STKDEC": 
 								   try {

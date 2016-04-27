@@ -7,9 +7,12 @@ public class Bru {
 	//stack for symbol table
 	public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
 	//execution stack
-	public static Stack<String> run = new Stack<String>(); //string
+	public static Stack<String> run = new Stack<String>();
+	//stack data structure maintainance
 	public static Map<String, Stack<Integer>> StackMap = new HashMap<String, Stack<Integer>>();
 	public static String funcName = "";
+	//instruction pointer maintainance
+	public static Stack<BufferedReader> fileReader = new Stack<BufferedReader>();
 	
 	public static void main(String args[])throws IOException {
 		String path = args[0];
@@ -31,8 +34,14 @@ public class Bru {
 							}
 								
 					     	break;
-				case "LOAD": 	run.push((values.get(command[1])));
-					     	break;
+				case "LOAD": 	
+							if(values.containsKey(command[1])){
+								run.push(values.get(command[1]));
+							}
+							else{
+								System.out.println("Undeclared variable "+command[1]+", initialize it with some value before passing it to function");
+							}
+							break;
 				case "STORE"://check for type mismatch if variable already exists
 							if ((values.containsKey(command[1])) && (values.get(command[1]).getClass() != run.peek().getClass())){
 								 System.out.println("Type Mismatch error"); 
@@ -49,7 +58,7 @@ public class Bru {
 				case "DIV": 	run.push(Integer.toString(Integer.parseInt(run.pop()) / Integer.parseInt(run.pop())));
 					    	break;
 				case "PRINT": if(command[1].charAt(0) == '\"')
-								System.out.print(line.split(" ", 2)[1].split("\"")[1]);
+								System.out.println(line.split(" ", 2)[1].split("\"")[1]);
 							else 
 								System.out.println(values.get(command[1]));
 				  	      	break;
@@ -111,10 +120,11 @@ public class Bru {
 							while((line = br.readLine()).equals("WEnd") == false);
 						}
 						break;
+				case "WEnd" :break;	
 				case "Go-WStart": br.close();
-						br = new BufferedReader(new FileReader(path));
-						while((line = br.readLine()).equals("WStart "+whilelabel) == false);
-						break;
+							br = new BufferedReader(new FileReader(path));
+							while((line = br.readLine()).equals("WStart "+whilelabel) == false);
+							break;
 				case "STKDEC": try {StackMap.put(command[1], new Stack<Integer>());}
 							   catch(Exception e) {System.out.println("error in stack declaration" + e);}
 							   finally {break;}
@@ -128,36 +138,37 @@ public class Bru {
 								catch(Exception e) {System.out.println("error in stack pop" + e);}
 								finally {break;}	
 				case "FuncCall":
-								symtab.push(values);
-								System.out.println("Calling functinon "+command[1]);
+								//symtab.push(values);
+								//System.out.println("Calling functinon "+command[1]);
 								funcName = command[1];
-								System.out.println(funcName);
+								//System.out.println("Calling functinon "+funcName);
 								while((line = br.readLine()).equals("FuncCall Ends") == false){
-								System.out.println(line);
-								command = line.split(" ");
-								switch(command[0]){
-									case "PUSH": 	run.push((command[1]));
-										break;
-									case "LOAD": 	
-										if(values.containsKey(command[1])){
-											String value = values.get(command[1]);
-											run.push((value));
-										}
-										else{
-											System.out.println("Undeclared variable "+command[1]+", initialize it with some value before passing it to function");
-										}
-										break;
-									default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
-								  } // End of inner switch series inside the while loop
+									//System.out.println(line);
+									command = line.split(" ");
+									switch(command[0]){
+										case "PUSH": 	run.push((command[1]));
+											break;
+										case "LOAD": 	
+											if(values.containsKey(command[1])){
+												run.push(values.get(command[1]));
+											}
+											else{
+												System.out.println("Undeclared variable "+command[1]+", initialize it with some value before passing it to function");
+											}
+											break;
+										default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
+									  } // End of inner switch series inside the while loop
 								} //End of while
+								symtab.push(new HashMap<String,String>(values));//push current function symbol table to stack
+								fileReader.push(new BufferedReader(br));
 								//break;
 								
 				case "FuncDef":
-							//if(!command[1].equals("ends")){
+							   //if(!command[1].equals("ends")){
 								br = new BufferedReader(new FileReader(path));	
 								while((line = br.readLine()).equals("FuncDef "+funcName) == false); //Semi-Colon used to skip labeling, shortcut method
-								System.out.println("Found "+line);
-							while((line = br.readLine()).equals(".funcBodyStarts "+funcName) == false){
+								//System.out.println("Found "+line);
+								while((line = br.readLine()).equals(".funcBodyStarts "+funcName) == false){
 									command = line.split(" ");
 									switch(command[0]){
 									case "STORE"://check for type mismatch if variable already exists
@@ -166,19 +177,18 @@ public class Bru {
 												System.exit(0); //runtime error
 											}
 											else {
-												System.out.println(values.get(command[1])); 
+												//System.out.println(values.get(command[1])); 
 												values.put(command[1], (run.pop()));
 											}
 											break;
 									default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
 								  } // End of inner switch series inside the while loop
-								}
+								}//end of while
 								break;
-				case "RETURN" : 
-							Map<String, String> mp = symtab.pop();
-							System.out.println(mp.get(run.pop()));
-							break;
-				case ".funcbodyends" : break;
+				case "RETURN" : ;
+				case ".funcbodyends" : values = symtab.pop();
+									   br = fileReader.pop();
+									   //System.out.println(mp.get(run.pop()));break;
 				case ".funcends"     : break;
 				case ".MainMethodEnds":break;			
 				case "" : 	break;

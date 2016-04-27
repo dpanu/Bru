@@ -8,8 +8,8 @@ public class Bru {
 	public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
 	//execution stack
 	public static Stack<String> run = new Stack<String>(); //string
-	public static String funcName;
-	
+	public static Map<String, Stack<Integer>> StackMap = new HashMap<String, Stack<Integer>>();
+	public static String funcName = "";
 	
 	public static void main(String args[])throws IOException {
 		String path = args[0];
@@ -18,7 +18,7 @@ public class Bru {
 		String whilelabel = "";
 		BufferedReader br = new BufferedReader(new FileReader(path));
 		while((line = br.readLine()).equals(".MainMethodStarts") == false);
-		while((line = br.readLine()) != ".MainMethodEnds"){
+		while((line = br.readLine()) != null){
 			String[] command = line.split(" ");
 			switch(command[0]){
 				case "PUSH": 	
@@ -49,7 +49,7 @@ public class Bru {
 				case "DIV": 	run.push(Integer.toString(Integer.parseInt(run.pop()) / Integer.parseInt(run.pop())));
 					    	break;
 				case "PRINT": if(command[1].charAt(0) == '\"')
-								System.out.println(line.split(" ", 1));
+								System.out.print(line.split(" ", 2)[1].split("\"")[1]);
 							else 
 								System.out.println(values.get(command[1]));
 				  	      	break;
@@ -83,13 +83,13 @@ public class Bru {
 						if(a > b) condition = true;
 						else condition = false;
 						break;
-				case "LAND" : 	Boolean abool = Boolean.valueOf(run.pop());
+				case "AND" : 	Boolean abool = Boolean.valueOf(run.pop());
 						Boolean bbool = Boolean.valueOf(run.pop());
 						if (abool == null || bbool == null)System.exit(0); //error to be done
 						if(abool && bbool) condition = true;
 						else condition = false;
 						break;
-				case "LOR" : abool = Boolean.valueOf(run.pop());
+				case "OR" : abool = Boolean.valueOf(run.pop());
 						bbool = Boolean.valueOf(run.pop());
 						if (abool == null || bbool == null)System.exit(0); //error to be done
 						if(abool && bbool) condition = true;
@@ -115,6 +115,18 @@ public class Bru {
 						br = new BufferedReader(new FileReader(path));
 						while((line = br.readLine()).equals("WStart "+whilelabel) == false);
 						break;
+				case "STKDEC": try {StackMap.put(command[1], new Stack<Integer>());}
+							   catch(Exception e) {System.out.println("error in stack declaration" + e);}
+							   finally {break;}
+				case "STORESTK":try {StackMap.get(command[1]).push(Integer.parseInt(run.pop()));}
+								catch(Exception e) {System.out.println("error in stack store" + e);}
+								finally {break;}
+				case "STKPEEK": try {run.push(Integer.toString(StackMap.get(command[1]).peek()));}
+								catch(Exception e) {System.out.println("error in stack peek" + e);}
+								finally {break;}
+				case "STKPOP":  try {int delete = StackMap.get(command[1]).pop();}
+								catch(Exception e) {System.out.println("error in stack pop" + e);}
+								finally {break;}	
 				case "FuncCall":
 								symtab.push(values);
 								System.out.println("Calling functinon "+command[1]);
@@ -166,12 +178,17 @@ public class Bru {
 							Map<String, String> mp = symtab.pop();
 							System.out.println(mp.get(run.pop()));
 							break;
-							
+				case ".funcbodyends" : break;
+				case ".funcends"     : break;
+				case ".MainMethodEnds":break;			
 				case "" : 	break;
-				default: 	System.out.println("command not found " + command[0]); //System.exit(0);
+				default: 	System.out.println("Error: command not found " + command[0]); //System.exit(0);
 			}	
 		}
 		br.close();		
 }
 }
+
+
+
 

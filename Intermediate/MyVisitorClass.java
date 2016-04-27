@@ -29,7 +29,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
     public String createlabel() {
         labelcounter++;
-        return ("label" + labelcounter);
+        return ("label#" + labelcounter);
     }
 
     @Override
@@ -562,7 +562,7 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         try {
             fstream = new FileWriter(file, true);
             out = new BufferedWriter(fstream);
-            out.write("\nIFtrue" + "\n");
+            out.write("\nIFtrue " + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

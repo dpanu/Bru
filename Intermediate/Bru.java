@@ -234,7 +234,13 @@ public class Bru {
 									values = new HashMap<String,String>();
 									//start searching for function
 									br = new BufferedReader(new FileReader(path));	
-									while((line = br.readLine()).equals("FuncDef "+funcName) == false);
+									try{
+										while((line = br.readLine()).equals("FuncDef "+funcName) == false);
+									}
+									catch(Exception e){
+										System.out.println("Error:Function " + funcName + "not found. Define function before calling");
+										System.exit(0);
+									}
 									while((line = br.readLine()).equals(".funcBodyStarts "+funcName) == false){
 										command = line.split(" ");
 										switch(command[0]){

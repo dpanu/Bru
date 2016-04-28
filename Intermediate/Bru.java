@@ -146,13 +146,14 @@ public class Bru {
 								}	
 								break;
 					case "IFfalse" : 
-								if(Boolean.parseBoolean(run.pop())){
-									while((line = br.readLine()).equals("EndIfelse "+command[1]) == false); 
+								if(Boolean.parseBoolean(run.peek())){
+									while((line = br.readLine()).equals("EndIfelse "+command[1]) == false);
+									run.pop();
 								}
 								break;
 					case "Go-Endifelse":
 										break;
-					case "EndIfelse" :
+					case "EndIfelse" : run.pop();
 										break;
 					case "WStart" : 
 									break;

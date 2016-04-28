@@ -2,8 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Bru {
-	//global symbol table
-	//public static Map<String, String> globalsymtab = new HashMap<String, String>();
 	//current symbol table
 	public static Map<String, String> values = new HashMap<String, String>();
 	//stack for symbol table
@@ -14,13 +12,30 @@ public class Bru {
 	public static Map<String, Stack<Integer>> StackMap = new HashMap<String, Stack<Integer>>();
 	public static String funcName = "";
 	//instruction pointer maintainance
-	public static Stack<BufferedReader> fileReader = new Stack<BufferedReader>();
+	public static Stack<BufferedReader> fileReader = new Stack<BufferedReader>(); 
+	
+	public static void printSymtab() {
+		System.out.print("Current symbol table: [ ");
+		for(String key : values.keySet()){
+			if(values.get(key).equals("#stack#")){
+				System.out.print(key + " -> " + Arrays.toString(StackMap.get(key).toArray()) + " | ");	
+			}
+			else{
+				System.out.print(key + " -> " + values.get(key) + " | ");
+			}	
+		}
+		System.out.println("end ]");
+	}
 	
 	public static void main(String args[])throws IOException {
 		String path = args[0];
+		Boolean psymtab = false;
+		if(args.length > 1){
+			if (args[1].trim().equals("-sym"))
+				psymtab = true;
+		}
 		String line = null;
 		Boolean condition = null;
-		String whilelabel = null;
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(path));
 			while((line = br.readLine()).equals(".MainMethodStarts") == false);
@@ -36,14 +51,20 @@ public class Bru {
 								}
 								else{
 									System.out.println("Error:Undeclared variable "+command[1]+", initialize it with some value before using it");
+									System.exit(0);
 								}
 								break;
 					case "STORE"://check for type mismatch if variable already exists
 								if ((values.containsKey(command[1])) && (values.get(command[1]).getClass() != run.peek().getClass())){
-									 System.out.println("Error:Type Mismatch"); 
+									 System.out.println("Error:Type Mismatch for variable " + command[1]); 
 									 System.exit(0); //runtime error
 								}
-								else values.put(command[1], (run.pop()));
+								else {
+									values.put(command[1], (run.pop()));
+									if(psymtab)
+										printSymtab();
+										
+								}
 					 	      	break;
 					case "ADD": 
 								run.push(Integer.toString(Integer.parseInt(run.pop()) + Integer.parseInt(run.pop())));
@@ -171,7 +192,15 @@ public class Bru {
 									break;
 					case "STKDEC": 
 								   try {
-									   StackMap.put(command[1], new Stack<Integer>());
+									   if (values.containsKey(command[1])){
+										   System.out.println("Error:Stack already been declared");
+									   }
+									   else {
+										   StackMap.put(command[1], new Stack<Integer>());
+										   values.put(command[1], "#stack#");
+										   if(psymtab)
+												printSymtab();
+									   }
 								   }
 								   catch(Exception e) {
 									   System.out.println("Stack declaration error:" + e);
@@ -182,6 +211,8 @@ public class Bru {
 					case "STORESTK":
 									try {
 										StackMap.get(command[1]).push(Integer.parseInt(run.pop()));
+										if(psymtab)
+											printSymtab();
 									}
 									catch(Exception e) {
 										System.out.println("Stack error:" + e);
@@ -202,6 +233,8 @@ public class Bru {
 					case "STKPOP":  
 									try {
 										int delete = StackMap.get(command[1]).pop();
+										if(psymtab)
+											printSymtab();
 									}
 									catch(Exception e) {
 										System.out.println("Stack error:" + e);
@@ -233,6 +266,10 @@ public class Bru {
 									fileReader.push(new BufferedReader(br));
 									//define new symbol table
 									values = new HashMap<String,String>();
+									if(psymtab){
+										System.out.println("Entering Function " + funcName);
+										printSymtab();
+									}	
 									//start searching for function
 									br = new BufferedReader(new FileReader(path));	
 									try{
@@ -252,6 +289,8 @@ public class Bru {
 												}
 												else {
 													values.put(command[1], (run.pop()));
+													if(psymtab)
+														printSymtab();
 												}
 												break;
 										default: 	;//System.out.println("Not able to identify the argument passed to function " + command[0]);
@@ -260,12 +299,21 @@ public class Bru {
 									break;
 					case "RETURN" : ;
 					case ".funcbodyends" : //return to previous functions' symbol table, current function scope ends
+										   for (String var : values.keySet()){
+											   if(values.get(var).equals("#stack#"))
+												   StackMap.remove(var);
+										   }
 										   values = symtab.pop();
+										   if(psymtab)
+											   if(psymtab){
+													System.out.println("Exiting Function " + funcName);
+													printSymtab();
+												}
 										   //return to instruction pointer
 										   br = fileReader.pop();
 					case ".funcends": 
 											break;
-					case ".MainMethodEnds":
+					case ".MainMethodEnds": values.clear();
 											break;			
 					case "" : 	
 											break;
@@ -280,4 +328,5 @@ public class Bru {
 		}
 			
 }//end of main
+	
 }//end of class

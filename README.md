@@ -1,5 +1,7 @@
-#  Bru Language  ![alt text][logo]
-[logo]: https://github.com/dpanu/westeros/tree/master/Docs/bru.png "Logo"
+#  Bru Language  
+![alt-text][logo]
+[logo]: https://raw.githubusercontent.com/dpanu/westeros/master/Docs/bru.png "Logo"
+
 ## *Compiler and Runtime Construction*
 ---
 ***
@@ -26,7 +28,7 @@ docker build -t <youruser>/dillinger:latest .
 Reference-style: 
 ![alt text][snippet]
 
-[snippet]: https://github.com/dpanu/westeros/tree/master/Docs/antlr4.png "Snippet Text"
+[snippet]: https://raw.githubusercontent.com/dpanu/westeros/master/Docs/antlr4.png "Snippet Text"
 
 * Intermediate Code
 Intermediate bytecode generated in Java

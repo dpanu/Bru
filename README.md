@@ -1,4 +1,5 @@
-#  Bru Language  
+#  Bru Language  ![alt text][logo]
+[logo]: https://github.com/dpanu/westeros/tree/master/Docs/bru.png "Logo"
 ## *Compiler and Runtime Construction*
 ---
 ***
@@ -21,6 +22,11 @@ docker build -t <youruser>/dillinger:latest .
 * Parser / Lexer
   ANTLR 4.5
  - Translates your grammar to a parser/lexer in Java (or other target language)
+
+Reference-style: 
+![alt text][snippet]
+
+[snippet]: https://github.com/dpanu/westeros/tree/master/Docs/antlr4.png "Snippet Text"
 
 * Intermediate Code
 Intermediate bytecode generated in Java

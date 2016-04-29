@@ -8,11 +8,9 @@ Bru is easy to use programming language for any beginner in programming. Aimed a
 features of Recursion, Stack, Symbol table, Activation Record. Showcase constructs in programming language Data types, Looping constructs, 
 Conditional Statements, Function
 
-* Runtime Engine
-Java translates Intermediate code to output
 
 ## How to Run
-Open cmd from your PC -> Run
+Open Command Prompt cmd from your PC
 
 ```sh
 cd dillinger
@@ -26,6 +24,9 @@ docker build -t <youruser>/dillinger:latest .
 
 * Intermediate Code
 Intermediate bytecode generated in Java
+
+* Runtime Engine
+Java translates Intermediate code to output
 
 ## Grammar Features
 * Our grammar supports data types like boolean and number.

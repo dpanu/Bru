@@ -25,9 +25,8 @@ docker build -t <youruser>/dillinger:latest .
   ANTLR 4.5
  - Translates your grammar to a parser/lexer in Java (or other target language)
 
-Reference-style: 
-![alt text][snippet]
 
+![alt text][snippet]
 [snippet]: https://raw.githubusercontent.com/dpanu/westeros/master/Docs/antlr4.png "Snippet Text"
 
 * Intermediate Code

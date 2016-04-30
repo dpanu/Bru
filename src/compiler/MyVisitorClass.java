@@ -4,13 +4,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Created by Abhinav on 16-04-2016.
+ *  This executes on BRU program and generated intermediate code
+ *  And produces intermediate code through MyVisitorClass
  */
 public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
-
+    /**
+     *  BufferWriter for writing intermediate file
+     */
     BufferedWriter out = null;
 
+    /**
+     * Open File Stream
+     */
     FileWriter fstream;
     String filekanaam = Main.filename;
     String[] parts = filekanaam.split("\\.");
@@ -32,6 +38,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return ("label#" + labelcounter);
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Addition or substraction
+     */
     @Override
     public String visitAddSub(LabeledExprParser.AddSubContext ctx) {
         visitChildren(ctx);
@@ -103,6 +114,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Multiplication or Division
+     */
     @Override
     public String visitMulDivMod(LabeledExprParser.MulDivModContext ctx) {
         visitChildren(ctx);
@@ -202,12 +218,22 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Integer
+     */
     @Override
     public String visitInt(LabeledExprParser.IntContext ctx) {
         visitChildren(ctx);
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return String Value of Assign operation
+     */
     @Override
     public String visitAssign(LabeledExprParser.AssignContext ctx) {
 
@@ -286,6 +312,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Relational operation
+     */
     @Override
     public String visitRelational(LabeledExprParser.RelationalContext ctx) {
         //visitChildren(ctx);
@@ -409,6 +440,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you And or OR operation
+     */
     @Override
     public String visitLogicalANDOR(LabeledExprParser.LogicalANDORContext ctx) {
 
@@ -454,6 +490,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Equality
+     */
     @Override
     public String visitEquality(LabeledExprParser.EqualityContext ctx) {
         //visitChildren(ctx);
@@ -522,7 +563,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     }
 
 
-
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit print statement
+     */
     @Override
     public String visitPrintline(LabeledExprParser.PrintlineContext ctx) {
         //System.out.println("Print Line");
@@ -554,6 +599,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit if-else condition
+     */
     @Override
     public String visitConditionifelse(LabeledExprParser.ConditionifelseContext ctx) {
 
@@ -582,6 +632,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit if condition
+     */
     @Override
     public String visitIf(LabeledExprParser.IfContext ctx) {
 
@@ -627,6 +682,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit else condition
+     */
     @Override
     public String visitElse(LabeledExprParser.ElseContext ctx) {
 
@@ -669,6 +729,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Loop construct
+     */
     @Override
     public String visitLoopcond(LabeledExprParser.LoopcondContext ctx) {
         String label = createlabel();
@@ -730,6 +795,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Function Declaration
+     */
     @Override
     public String visitFuncdecl(LabeledExprParser.FuncdeclContext ctx) {
 
@@ -875,8 +945,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
 
     }
 
-
-
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Return statement
+     */
     @Override
     public String visitReturnStmt(LabeledExprParser.ReturnStmtContext ctx) {
 
@@ -911,6 +984,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Expression list
+     */
     @Override
     public String visitExprsList(LabeledExprParser.ExprsListContext ctx) {
 
@@ -942,6 +1020,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Function Call
+     */
     @Override
     public String visitFunccall(LabeledExprParser.FunccallContext ctx) {
         try {
@@ -965,6 +1048,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Arguements
+     */
     @Override
     public String visitArguments(LabeledExprParser.ArgumentsContext ctx) {
         //System.out.println("In here");
@@ -1000,6 +1088,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     }
 
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you visit Stack
+     */
     @Override
     public String visitStackdec(LabeledExprParser.StackdecContext ctx) {
         //System.out.println("Total Child are " + ctx.getChildCount());
@@ -1022,6 +1115,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Stack Push
+     */
     @Override
     public String visitStkpush(LabeledExprParser.StkpushContext ctx) {
         //System.out.println("child count from stk psh " + ctx.getChildCount());
@@ -1047,6 +1145,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
     }
 
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Stack Peek
+     */
     @Override
     public String visitStkpeek(LabeledExprParser.StkpeekContext ctx) {
         try {
@@ -1068,6 +1171,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Stack empty
+     */
     @Override
     public String visitStkempty(LabeledExprParser.StkemptyContext ctx) {
 
@@ -1090,6 +1198,11 @@ public class MyVisitorClass extends LabeledExprBaseVisitor<String> {
         return  null;
     }
 
+    /**
+     *
+     * @param ctx Context for Visitor of parse tree
+     * @return Write intermediate when you Stack Pop
+     */
     @Override
     public String visitStkpop(LabeledExprParser.StkpopContext ctx) {
 

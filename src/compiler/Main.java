@@ -10,12 +10,20 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 /**
- * Created by Abhinav on 16-04-2016.
+ *  This executes on BRU program and generated intermediate code
+ *  And produces intermediate code through MyVisitorClass
  */
 public class Main {
-
-
+    /**
+     * File Name of input
+     */
     public static  String filename;
+
+    /**
+     *
+     * @param args Pass the input BRU program file
+     * @throws Exception  Throw Exception if any while handling file
+     */
     public static void main(String[] args) throws Exception{
 
         if ( args.length>0 )

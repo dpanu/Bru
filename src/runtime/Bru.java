@@ -2,19 +2,45 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ *  This executes on runtime, this class operated on BRU intermeduate bytecode
+ *  And produces output
+ */
 public class Bru {
-    //current symbol table
+
+    /**
+     * Map variable to store the variable and there values
+     */
     public static Map<String, String> values = new HashMap<String, String>();
-    //stack for symbol table
+
+    /**
+     * Symbol table for code
+     */
     public static Stack<Map<String, String>> symtab = new Stack<Map<String, String>>();
-    //execution stack
+
+    /**
+     * Operation stack or execution stack
+     */
     public static Stack<String> run = new Stack<String>();
-    //stack data structure maintainance
+
+    /**
+     * stack data structure maintainance
+     */
     public static Map<String, Stack<Integer>> StackMap = new HashMap<String, Stack<Integer>>();
+
+    /**
+     * Store Function name
+     */
     public static String funcName = "";
-    //instruction pointer maintainance
+
+    /**
+     * instruction pointer maintainance
+     */
     public static Stack<BufferedReader> fileReaderStack = new Stack<BufferedReader>();
 
+    /**
+     * Here we have symbol table for storing values of variable in each scope
+     */
     public static void printSymtab() {
         System.out.print("Current symbol table: [ ");
         for(String key : values.keySet()){
@@ -28,6 +54,11 @@ public class Bru {
         System.out.println("end ]");
     }
 
+    /**
+     * This is the main method of execution
+     * @param args Arguments passed to this include the bytecode file
+     * @throws IOException Throw exception if any errors while handling code
+     */
     public static void main(String args[])throws IOException {
         String path = args[0];
         Boolean psymtab = false;

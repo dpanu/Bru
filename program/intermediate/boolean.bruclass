@@ -1,0 +1,34 @@
+
+.MainMethodStarts
+PUSH false
+STORE a
+PUSH true
+STORE b
+PRINT "Value of a is "
+PRINT a
+PRINT "Value of b is "
+PRINT b
+PRINT "Checking AND operation between a and b"
+LOAD b
+LOAD a
+AND
+
+IFtrue label#1
+PRINT "Both are true"
+Go-Endifelse label#1
+IFfalse label#2
+PRINT "Either one of them is false"
+EndIfelse label#2
+PRINT "Checking OR operation between a and b"
+LOAD b
+LOAD a
+OR
+
+IFtrue label#3
+PRINT "Either one of them is true"
+Go-Endifelse label#3
+IFfalse label#4
+PRINT "Both of them is false"
+EndIfelse label#4
+
+.MainMethodEnds

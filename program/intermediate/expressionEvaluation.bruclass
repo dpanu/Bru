@@ -1,0 +1,30 @@
+
+.MainMethodStarts
+PUSH 5
+STORE a
+PUSH 2
+STORE b
+PUSH 3
+STORE c
+PUSH 10
+STORE d
+LOAD c
+LOAD b
+MUL
+LOAD a
+SUB
+LOAD d
+ADD
+STORE e
+PRINT "Value of a is"
+PRINT a
+PRINT "Value of b is"
+PRINT b
+PRINT "Value of c is"
+PRINT c
+PRINT "Value of d is"
+PRINT d
+PRINT "Computing the value of expression a - b*c + d: "
+PRINT e
+
+.MainMethodEnds

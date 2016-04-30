@@ -1,0 +1,34 @@
+FuncDef getSum
+STORE y
+STORE x
+
+.funcBodyStarts getSum
+LOAD y
+LOAD x
+ADD
+STORE sum
+LOAD sum
+.funcbodyends
+
+.MainMethodStarts
+PUSH 6
+STORE a
+PUSH 4
+STORE b
+PUSH 0
+STORE sum
+PRINT "Value of a is"
+PRINT a
+PRINT "Value of b is"
+PRINT b
+
+FuncCall getSum
+LOAD a
+LOAD b
+FuncCall Ends
+
+STORE sum
+PRINT "Sum of a and b is "
+PRINT sum
+
+.MainMethodEnds

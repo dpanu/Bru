@@ -1,0 +1,32 @@
+
+// usage of stack with while loop
+
+method main(void){
+
+    stack s
+    s.pushstk(1)
+    s.pushstk(2)
+    s.pushstk(3)
+    s.pushstk(4)
+    s.pushstk(5)
+
+	c = true
+    a = false
+	b = s.emptystk()
+	sum = 0
+    while( a == b ){
+        val = s.peekstk()
+		print("Top value of stack is :")
+		print(val)
+        sum = sum + val
+        s.popstk()
+        b = s.emptystk()
+		if( b == c){
+			print("Stack empty now .....")
+		}
+    }
+
+    print("Sum of all the values in stack is : ")
+    print(sum)
+
+}

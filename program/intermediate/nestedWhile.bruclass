@@ -1,0 +1,44 @@
+
+.MainMethodStarts
+PUSH 6
+STORE a
+PUSH 2
+STORE i
+
+WStart label#1
+LOAD a
+LOAD i
+LESS
+Whiletrue label#1
+PUSH 1
+STORE k
+PUSH 0
+STORE sum
+
+WStart label#2
+LOAD i
+LOAD k
+LESS
+Whiletrue label#2
+LOAD k
+LOAD sum
+ADD
+STORE sum
+PUSH 1
+LOAD k
+ADD
+STORE k
+Go-WStart label#2
+WEnd label#2
+
+PRINT "Sum is"
+PRINT sum
+PUSH 1
+LOAD i
+ADD
+STORE i
+Go-WStart label#1
+WEnd label#1
+
+
+.MainMethodEnds

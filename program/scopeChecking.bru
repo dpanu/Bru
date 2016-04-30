@@ -1,0 +1,30 @@
+// programs written must be saved with '.bru' extension
+
+
+// function to check scope
+
+method checkScope(b){
+
+    //local copy of a is created
+    a = b
+    a = a + 10
+    print("Updating the value of a in function checkScope")
+    print(a)
+
+}
+
+method main(void){
+
+ a = 5
+ print("Value of variable a in main is")
+ print(a)
+
+ //passing value of a to the function checkScope
+ // the function creates its own local copy
+
+ checkScope(a)
+ print("Value of a after returning from the function checkScope is ")
+ print(a)
+
+
+}

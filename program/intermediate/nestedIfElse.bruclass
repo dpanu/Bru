@@ -1,0 +1,35 @@
+
+.MainMethodStarts
+PUSH 6
+STORE a
+PUSH 2
+STORE i
+PUSH 3
+STORE c
+PRINT "Value of c is "
+PRINT c
+PRINT "Value of a is "
+PRINT a
+PRINT "Value of i is "
+PRINT i
+LOAD i
+LOAD c
+GRT
+
+IFtrue label#1
+LOAD a
+LOAD c
+LESS
+
+IFtrue label#2
+PRINT "The value of c is in between i and a"
+Go-Endifelse label#2
+IFfalse label#3
+PRINT "Value of c is greater than both i and a"
+EndIfelse label#3
+Go-Endifelse label#1
+IFfalse label#4
+PRINT "Value of c is less than both"
+EndIfelse label#4
+
+.MainMethodEnds

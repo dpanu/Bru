@@ -1,0 +1,28 @@
+// programs written must be saved with '.bru' extension
+
+method factorial(a){
+    // if value of a is 1 then store the value as 1 and then return
+    if(a == 1){
+       fval = 1
+    }else{
+        // come here and call  the fnction again with value a - 1
+        z = a - 1
+		fnew = factorial(z)
+		fval = a * fnew
+    }
+    // return the value from here
+    return fval
+
+}
+
+
+method main(void){
+
+    a = 6
+    print("Computing the factorial of value : ")
+    print(a)
+    fact = factorial(a)
+	print("Factorial value is : ")
+	print(fact)
+
+}

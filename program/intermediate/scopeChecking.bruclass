@@ -1,0 +1,28 @@
+FuncDef checkScope
+STORE b
+
+.funcBodyStarts checkScope
+LOAD b
+STORE a
+PUSH 10
+LOAD a
+ADD
+STORE a
+PRINT "Updating the value of a in function checkScope"
+PRINT a
+.funcbodyends
+
+.MainMethodStarts
+PUSH 5
+STORE a
+PRINT "Value of variable a in main is"
+PRINT a
+
+FuncCall checkScope
+LOAD a
+FuncCall Ends
+
+PRINT "Value of a after returning from the function checkScope is "
+PRINT a
+
+.MainMethodEnds

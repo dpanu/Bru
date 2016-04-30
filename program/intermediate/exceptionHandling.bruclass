@@ -1,0 +1,22 @@
+
+.MainMethodStarts
+PUSH 5
+STORE a
+PUSH 10
+STORE b
+LOAD b
+LOAD a
+ADD
+STORE c
+PRINT "Value of a is "
+PRINT a
+PRINT "Value of b is "
+PRINT b
+PRINT "Sum of a and b is "
+PRINT c
+PUSH false
+STORE a
+PRINT "Updated value of a is "
+PRINT a
+
+.MainMethodEnds

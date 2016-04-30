@@ -1,0 +1,54 @@
+
+.MainMethodStarts
+
+STKDEC s
+PUSH 1
+STORESTK s
+PUSH 2
+STORESTK s
+PUSH 3
+STORESTK s
+PUSH 4
+STORESTK s
+PUSH 5
+STORESTK s
+PUSH true
+STORE c
+PUSH false
+STORE a
+STKEMPTY s
+STORE b
+PUSH 0
+STORE sum
+
+WStart label#1
+LOAD b
+LOAD a
+EQ
+Whiletrue label#1
+STKPEEK s
+STORE val
+PRINT "Top value of stack is :"
+PRINT val
+LOAD val
+LOAD sum
+ADD
+STORE sum
+STKPOP s
+STKEMPTY s
+STORE b
+LOAD c
+LOAD b
+EQ
+
+IFtrue label#2
+PRINT "Stack empty now ....."
+Go-Endifelse label#2
+EndIfelse label#3
+Go-WStart label#1
+WEnd label#1
+
+PRINT "Sum of all the values in stack is : "
+PRINT sum
+
+.MainMethodEnds

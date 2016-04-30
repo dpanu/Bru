@@ -1,0 +1,46 @@
+FuncDef factorial
+STORE a
+
+.funcBodyStarts factorial
+PUSH 1
+LOAD a
+EQ
+
+IFtrue label#1
+PUSH 1
+STORE fval
+Go-Endifelse label#1
+IFfalse label#2
+PUSH 1
+LOAD a
+SUB
+STORE z
+
+FuncCall factorial
+LOAD z
+FuncCall Ends
+
+STORE fnew
+LOAD fnew
+LOAD a
+MUL
+STORE fval
+EndIfelse label#2
+LOAD fval
+.funcbodyends
+
+.MainMethodStarts
+PUSH 6
+STORE a
+PRINT "Computing the factorial of value : "
+PRINT a
+
+FuncCall factorial
+LOAD a
+FuncCall Ends
+
+STORE fact
+PRINT "Factorial value is : "
+PRINT fact
+
+.MainMethodEnds

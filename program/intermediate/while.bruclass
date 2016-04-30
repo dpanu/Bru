@@ -1,0 +1,31 @@
+
+.MainMethodStarts
+PUSH 10
+STORE a
+PRINT "Value of a is "
+PRINT a
+PUSH 1
+STORE i
+PUSH 1
+STORE fact
+
+WStart label#1
+LOAD a
+LOAD i
+LE
+Whiletrue label#1
+LOAD i
+LOAD fact
+MUL
+STORE fact
+PUSH 1
+LOAD i
+ADD
+STORE i
+Go-WStart label#1
+WEnd label#1
+
+PRINT "Factorial value of a"
+PRINT fact
+
+.MainMethodEnds

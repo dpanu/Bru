@@ -5,6 +5,10 @@
 ## *Compiler and Runtime Construction*
 ---
 ***
+
+## YouTube Link to Presentation
+<a href="https://youtu.be/ftAop4s9mVo" target="_blank"><img src="https://i.ytimg.com/vi/ftAop4s9mVo/2.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 [![IMAGE ALT TEXT HERE](https://i.ytimg.com/vi/ftAop4s9mVo/2.jpg)](https://youtu.be/ftAop4s9mVo)
 ## Description
 Bru is easy to use programming language for any beginner in programming. Aimed at rapid implementation, easy-to-use. Implements powerful 

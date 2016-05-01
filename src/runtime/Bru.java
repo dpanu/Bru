@@ -224,7 +224,7 @@ public class Bru {
                             System.out.println("Error:Unassigned boolean variable, assign true or false before use");
                             System.exit(0);
                         }
-                        if(abool && bbool)
+                        if(abool || bbool)
                             condition = true;
                         else
                             condition = false;
